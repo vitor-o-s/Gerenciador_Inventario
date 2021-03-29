@@ -2,7 +2,7 @@ import setor
 import tkinter as tk
 from tkinter import Label, Menu
 
-if __name__ == "___main__":
+if __name__ == "__main__":
 
     main = tk.Tk()
     main.geometry('800x600')
