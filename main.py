@@ -1,6 +1,15 @@
-import setor
+import setor, pessoa
 import tkinter as tk
 from tkinter import Label, Menu
+
+def clickedpessoa():
+
+    return pessoa.CadastroPessoa()
+
+def clickedsetor():
+
+    return setor.CadastroSetor()
+
 
 if __name__ == "__main__":
 
@@ -15,9 +24,9 @@ if __name__ == "__main__":
     itemCadastro.add_separator()
     itemCadastro.add_command(label='Computador')
     itemCadastro.add_separator()
-    itemCadastro.add_command(label='Pessoa')#, command=CadastroPessoa)
+    itemCadastro.add_command(label='Pessoa', command=clickedpessoa)
     itemCadastro.add_separator()
-    itemCadastro.add_command(label='Setor', command=setor.CadastroSetor())
+    itemCadastro.add_command(label='Setor', command=clickedsetor)
     itemCadastro.add_separator()
     itemCadastro.add_command(label='Sair', command=quit)
     menu.add_cascade(label='Cadastro', menu=itemCadastro)
