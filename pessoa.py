@@ -1,0 +1,25 @@
+import tkinter as tk
+from tkinter import Label, Entry, Button
+
+def CadastroPessoa():
+    Pessoa = tk.Tk()
+    Pessoa.geometry('400x300')
+    Pessoa.title("Cadastro de Pessoas")
+    lblCodigo = Label(Pessoa, text='Código:')
+    lblCodigo.grid(column=0, row=0)
+    txtCodigo = Entry(Pessoa, width=10)
+    txtCodigo.grid(column=1, row=0)
+    lblNomePessoa = Label(Pessoa, text='Nome:')
+    lblNomePessoa.grid(column=0, row=1)
+    txtNomePessoa = Entry(Pessoa, width=50)
+    txtNomePessoa.grid(column=1, row=1)
+    lblCargo = Label(Pessoa, text='Cargo:')
+    lblCargo.grid(column=0, row=2)
+    txtCargo = Entry(Pessoa, width=50)
+    txtCargo.grid(column=1, row=2)
+    lblEmail = Label(Pessoa, text='E-mail:')
+    lblEmail.grid(column=0, row=3)
+    txtEmail = Entry(Pessoa, width=50)
+    txtEmail.grid(column=1, row=3)
+    btnIncluir = Button(Pessoa, text='Incluir')
+    btnIncluir.grid(column=2, row=6)
