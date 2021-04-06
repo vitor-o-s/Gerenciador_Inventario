@@ -10,6 +10,13 @@ def clickedsetor():
 
     return setor.CadastroSetor()
 
+def clickedempresa():
+
+    pass
+
+def clickedcomputador():
+
+    pass
 
 if __name__ == "__main__":
 
@@ -20,9 +27,9 @@ if __name__ == "__main__":
     lbl.grid(column=0, row=0)
     menu = Menu(main)
     itemCadastro = Menu(menu)
-    itemCadastro.add_command(label='Empresa')
+    itemCadastro.add_command(label='Empresa', command=clickedempresa)
     itemCadastro.add_separator()
-    itemCadastro.add_command(label='Computador')
+    itemCadastro.add_command(label='Computador', command=clickedcomputador)
     itemCadastro.add_separator()
     itemCadastro.add_command(label='Pessoa', command=clickedpessoa)
     itemCadastro.add_separator()
