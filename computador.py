@@ -35,11 +35,11 @@ def CadastroComputador():
     txtRam.grid(column=1, row=6)
     lblRom = Label(computador, text='Rom:')
     lblRom.grid(column=0, row=7)
-    txtRom = Entry(pessoa, width=50)
+    txtRom = Entry(computador, width=50)
     txtRom.grid(column=1, row=7)
     lblCodigoSetor = Label(computador, text='Código do Setor:')
     lblCodigoSetor.grid(column=0, row=8)
-    txtCodigoSetor = Entry(pessoa, width=50)
+    txtCodigoSetor = Entry(computador, width=50)
     txtCodigoSetor.grid(column=1, row=8)
     
 
