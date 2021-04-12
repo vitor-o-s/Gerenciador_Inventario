@@ -16,7 +16,7 @@ def clickedempresa():
 
 def clickedcomputador():
 
-    return cadcomp.CadastrarComputador()
+    return cadcomp.CadastroComputador()
 
 if __name__ == "__main__":
 
