@@ -1,4 +1,4 @@
-import setor, pessoa
+import setor, pessoa, cadcomp
 import tkinter as tk
 from tkinter import Label, Menu
 
@@ -16,7 +16,7 @@ def clickedempresa():
 
 def clickedcomputador():
 
-    pass
+    return cadcomp.CadastroComputador()
 
 if __name__ == "__main__":
 

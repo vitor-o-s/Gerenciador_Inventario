@@ -1,0 +1,25 @@
+import tkinter as tk
+from tkinter import Label, Entry, Button
+
+def CadastroEmpresa():
+    Empresa = tk.Tk()
+    Empresa.geometry('400x300')
+    Empresa.title("Cadastro de Empresa")
+    lblcodigo = Label(Empresa, text='Código:')
+    lblCodigo.grid(column=0, row=0)
+    txtCodigo = Entry(Empresa, width=10)
+    txtCodigo.grid(column=1, row=0)
+    lblNomeEmpresa = Label(Empresa, text='Nome da Empresa:')
+    lblNomeEmpresa.grid(column=0, row=1)
+    txtNomeEmpresa = Entry(Empresa, width=50)
+    txtNomeEmpresa.grid(column=1, row=1)
+    lblTelefone = Label(Empresa, text='Telefone:')
+    lblTelefone.grid(column=0, row=2)
+    txtTelefone = Entry(Empresa, width=50)
+    txtTelefone.grid(column=1, row=2)
+    lblCodresponsavel = Label(Empresa, text='codigo do responsavel:')
+    lblCodResponsavel.grid(column=0, row=3)
+    txtCodResponsavel = Entry(Empresa, width=50)
+    txtCodResponsavel.grid(column=1, row=3)
+    btnIncluir = Button(Pessoa, text='Incluir')
+    btnIncluir.grid(column=2, row=6)
