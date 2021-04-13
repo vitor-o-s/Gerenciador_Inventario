@@ -5,7 +5,7 @@ def CadastroComputador():
     computador = tk.Tk()
     computador.geometry('400x300')
     computador.title("Cadastro de Computador")
-    lblTipoComputador = Label(computaodr, text='Tipo:')
+    lblTipoComputador = Label(computador, text='Tipo:')
     lblTipoComputador.grid(column=0, row=0)
     txtTipoComputador = Entry(computador, width=50)
     txtTipoComputador.grid(column=1, row=0)
@@ -35,11 +35,11 @@ def CadastroComputador():
     txtRam.grid(column=1, row=6)
     lblRom = Label(computador, text='Rom:')
     lblRom.grid(column=0, row=7)
-    txtRom = Entry(Pessoa, width=50)
+    txtRom = Entry(computador, width=50)
     txtRom.grid(column=1, row=7)
     lblCodigoSetor = Label(computador, text='Código do Setor:')
     lblCodigoSetor.grid(column=0, row=8)
-    txtCodigoSetor = Entry(Pessoa, width=50)
+    txtCodigoSetor = Entry(computador, width=50)
     txtCodigoSetor.grid(column=1, row=8)
     
 
