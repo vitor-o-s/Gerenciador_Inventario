@@ -36,7 +36,7 @@ def CadastroPessoa():
 
 def FuncaoButton(nome, cargo, email,labelResult):
 
-    if ((nome.get() is '') or (cargo.get() is '' ) or (email.get() is ''))  :
+    if ((nome.get() == '') or (cargo.get() == '' ) or (email.get() == ''))  :
         print(" Nome ou Cargo ou Email não foi preenchido. Favor verificar")
         labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar") 
     else:
