@@ -1,11 +1,11 @@
 import psycopg2
-pswd = 'e08769fa9d15c60f3f5c20446c21e804c7242e853e06a05e1d21068a607a379f'
-host = 'ec2-34-233-0-64.compute-1.amazonaws.com'
-user = 'ozuqxrhmnofbkl'
-db   = 'd3v409sdpeglku'
+pswd = 'a8ee2d0d3e8741fa884c1c190aa2f384d53a96b5fe96443eac9863c261822cbc'
+host = 'ec2-54-167-152-185.compute-1.amazonaws.com'
+user = 'nkqrevofvmcinl'
+db   = 'dbvmtp12eqm8g8'
+port = 5432
 
-
-def salvarpessoa(nome, cargo, email):
+def salvarpessoa(nome, cargo, email, labelResult):
     
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     
@@ -13,16 +13,31 @@ def salvarpessoa(nome, cargo, email):
         if conn is not None:
             print('Connection established to PostgreSQL.')
             with conn.cursor() as cur:
-                #Example
-                # cur.execute("""
-                #             INSERT INTO PESSOA (nomeCompleto, email)
-                #             VALUES (%s, %s, %s);
-                #             """,
-                #             (str(nome), str(email)))
 
-                cur.execute("SELECT * FROM PESSOA")
-                cur.fetchone()            
-            conn.commit()
+                ###################################################################################
+                ####### BUSCA NO BANCO INFORMAÇOES SE JÁ EXISTE USUARIO CADASTRADO ################
+                ###################################################################################
+                
+                if(checkEmail(email)==1):
+                    if(mask(email) == 1):
+                        print("Cadastrando usuario")
+                        ############## CORRIGIR QUERY PARA INSERIR USUARIO
+                        cur.execute("""
+                                    INSERT INTO PESSOA (nomeCompleto, email, cargo)
+                                    VALUES (%s, %s, %s);
+                                    """,
+                                    (str(nome), str(email),str(cargo)))
+                        # conn.commit() # commit para atualizar o banco 
+                        return 1        
+                    else:
+                        print("Dominio email invalido")
+                        return -1
+                else:
+                    print("Email cadastrado")
+ 
+                    return 0
+            
+            
         else:
             print('Connection not established to PostgreSQL.')
             
@@ -34,4 +49,57 @@ def salvarpessoa(nome, cargo, email):
             conn.close()
             print('Finally, connection closed.')
 
+def checkEmail(email):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    cur2 = conn.cursor()
+    cur2.execute("""
+            SELECT nomeCompleto, email
+            FROM PESSOA
+            WHERE 1=1
+            AND email = '"""+str(email)+"""'
+            """)
+    #print(cur2.fetchall())
+    if cur2.fetchall() == []:
+        cur2.close()
+        return 1
+    else:
+        # print("Existe usuario cadastrado com este e-mail")
+        cur2.close()
+        return -1 
 
+def mask(s):
+    lo = s.find('@')
+    if checkDomain(s, lo) == 1:
+        # print("Email valido")
+        return 1
+    else:
+        # print("email invalido")
+        return -1
+
+def checkDomain(s, lo):
+    dominio_email = s[lo:]
+    if dominio_email == '@empresa.com.br':
+        return 1
+    else:
+        return -1
+
+
+##################################################
+#RETORNA TODOS USUARIOS
+#cur.execute("SELECT * FROM PESSOA ;")
+
+#### LINHA PARA EXCLUIR USUARIOS SEM NOME
+# cur.execute("DELETE FROM PESSOA WHERE nomeCompleto = ''")
+# linhas_deletadas = cur.rowcount
+#return linhas_deletadas
+
+
+############### Retorna usuario do e-mail inserido
+# cur.execute("""
+#             SELECT nomeCompleto, email
+#             FROM PESSOA
+#             WHERE 1=1
+#             AND email = '"""+str(email)+"""'        
+#             """)
+# result = cur.fetchall() 
+# return result

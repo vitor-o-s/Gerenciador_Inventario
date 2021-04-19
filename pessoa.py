@@ -40,10 +40,13 @@ def FuncaoButton(nome, cargo, email,labelResult):
         print(" Nome ou Cargo ou Email não foi preenchido. Favor verificar")
         labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar") 
     else:
-        print("Inserir")
-        
-        banco.salvarpessoa(nome.get(), cargo.get(), email.get())
-        labelResult.config(text="Inserido")
+        resultado = banco.salvarpessoa(nome.get(), cargo.get(), email.get(), labelResult)
+        if resultado == 1:
+            labelResult.config(text="Usuario cadastrado com sucesso")
+        elif resultado == -1:
+            labelResult.config(text="Dominio inválido")
+        elif resultado == 0:
+            labelResult.config(text="Usuário já existe na tabela")
 
 
     
