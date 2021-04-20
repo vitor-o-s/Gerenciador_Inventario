@@ -5,7 +5,7 @@ user = 'nkqrevofvmcinl'
 db   = 'dbvmtp12eqm8g8'
 port = 5432
 
-def salvarpessoa(nome, cargo, email, labelResult):
+def salvarpessoa(nome, email, labelResult):
     
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     
@@ -19,19 +19,19 @@ def salvarpessoa(nome, cargo, email, labelResult):
                 ###################################################################################
                 
                 if(checkEmail(email)==1):
-                    if(mask(email) == 1):
+                    #if(mask(email) == 1):
                         print("Cadastrando usuario")
                         ############## CORRIGIR QUERY PARA INSERIR USUARIO
                         cur.execute("""
-                                    INSERT INTO PESSOA (nomeCompleto, email, cargo)
-                                    VALUES (%s, %s, %s);
+                                    INSERT INTO PESSOA (nomeCompleto, email)
+                                    VALUES (%s, %s);
                                     """,
-                                    (str(nome), str(email),str(cargo)))
+                                    (str(nome), str(email)))
                         # conn.commit() # commit para atualizar o banco 
                         return 1        
-                    else:
-                        print("Dominio email invalido")
-                        return -1
+                    #else:
+                    #    print("Dominio email invalido")
+                    #    return -1
                 else:
                     print("Email cadastrado")
  
@@ -67,21 +67,7 @@ def checkEmail(email):
         cur2.close()
         return -1 
 
-def mask(s):
-    lo = s.find('@')
-    if checkDomain(s, lo) == 1:
-        # print("Email valido")
-        return 1
-    else:
-        # print("email invalido")
-        return -1
 
-def checkDomain(s, lo):
-    dominio_email = s[lo:]
-    if dominio_email == '@empresa.com.br':
-        return 1
-    else:
-        return -1
 
 
 ##################################################
