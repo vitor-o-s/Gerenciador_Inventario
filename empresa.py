@@ -29,12 +29,16 @@ def CadastroEmpresa():
     labelResult = tk.Label(Empresa)  
     labelResult.grid(row=7, column=2) 
 
-    btnIncluir = Button(Empresa, text='Incluir')
+    btnIncluir = Button(Empresa, text='Incluir', command=partial(FuncaoButton, txtCodigo, txtNomeEmpresa, txtTelefone, txtCodResponsavel, labelResult))
     btnIncluir.grid(column=2, row=6)
 
-def FuncaoButton():
+def FuncaoButton(codigo, nomeempresa, tel, codresp, labelResult):
 
-    pass
+    if checkfill(codigo, nomeempresa, tel, codresp):
+        labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
+
+    else:
+        pass
 
 def checkfill(codigo, nomeempresa, tel, codresp):
 

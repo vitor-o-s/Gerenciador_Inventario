@@ -26,12 +26,16 @@ def CadastroSetor():
     labelResult = tk.Label(Setor)  
     labelResult.grid(row=4, column=1) 
 
-    btnIncluir = Button(Setor, text='Incluir', command = partial())
+    btnIncluir = Button(Setor, text='Incluir', command = partial(FuncaoButton, txtCodigo, txtNomeSetor,txtCodigoCoordenador, labelResult))
     btnIncluir.grid(column=1, row=3)
 
-def FuncaoButton():
+def FuncaoButton(codigo, setor, nomecoord, labelResult):
 
-    pass
+    if checkfill(codigo, setor, nomecoord):
+        labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
+
+    else:
+        pass
 
 def checkfill(codigo, setor, nomecoord):
 

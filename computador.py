@@ -72,12 +72,27 @@ def CadastroComputador():
     labelResult = tk.Label(computador)  
     labelResult.grid(row=7, column=2) 
 
-    btnIncluir = Button(computador, text='Incluir')
+    btnIncluir = Button(computador, text='Incluir', 
+                        command=partial(FuncaoButton,
+                                        txtmacETH,
+                                        txtmacWLAN,
+                                        txtTipoComputador, 
+                                        txtModeloMB, 
+                                        txtNumeroSerie, 
+                                        txtModeloNotebook, 
+                                        txtModeloChipset, 
+                                        txtProcessador, 
+                                        txtRam,txtRom, 
+                                        labelResult))
     btnIncluir.grid(column=2, row=6)
 
-def FuncaoButton():
+def FuncaoButton(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
 
-    pass
+    if checkfill(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
+        labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
+
+    else:
+        pass
 
 def checkfill(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
 
