@@ -43,3 +43,7 @@ def FuncaoButton(codigo, nomeempresa, tel, codresp, labelResult):
 def checkfill(codigo, nomeempresa, tel, codresp):
 
     return codigo.get()=='' or nomeempresa.get()=='' or tel.get()=='' or codresp.get==''
+
+def masktel(tel):
+
+    return len(tel) >= 8 #versão mascara inicial
