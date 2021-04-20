@@ -62,6 +62,23 @@ def checkEmail(email):
         cur2.close()
         return -1 
 
+def checkSetor(setor):
+
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    cur2 = conn.cursor()
+    cur2.execute("""
+            SELECT nomeSetor
+            FROM SETOR
+            WHERE 1=1 
+            AND nomeSetor =  '"""+str(setor)+"""'   
+            """)
+    if cur2.fetchall() == []:
+        cur2.close()
+        return 1
+    else:
+        # print("Existe usuario cadastrado com este e-mail")
+        cur2.close()
+        return -1
 
 
 
