@@ -2,9 +2,11 @@ import tkinter as tk
 from tkinter import Label, Entry, Button
 
 def CadastroComputador():
+
     computador = tk.Tk()
     computador.geometry('400x300')
     computador.title("Cadastro de Computador")
+
     lblTipoComputador = Label(computador, text='Tipo:')
     lblTipoComputador.grid(column=0, row=0)
     txtTipoComputador = Entry(computador, width=50)
@@ -41,6 +43,28 @@ def CadastroComputador():
     lblCodigoSetor.grid(column=0, row=8)
     txtCodigoSetor = Entry(computador, width=50)
     txtCodigoSetor.grid(column=1, row=8)
+    lblmacETH = Label(computador, text='macETH:')
+    lblmacETH.grid(column=0,row=9)
+    txtmacETH = Entry(computador,width=50)
+    txtmacETH.grid(column=1,row=9)
+    lblmacWLAN = Label(computador, text='macWLAN:')
+    lblmacWLAN.grid(column=0,row=10)
+    txtmacWLAN = Entry(computador,width=50)
+    txtmacWLAN.grid(column=1,row=10)
+
+    '''
+	macETH MACADDR NOT NULL, - criado
+	macWLAN MACADDR NOT NULL, - criado
+	tipoComputador VARCHAR(8), - ja tem
+	modeloMB VARCHAR(30), - ja tem 
+	numeroSerie VARCHAR(30), -  ja tem 
+	modeloNotebook VARCHAR(30), - ja tem
+	modeloChipset VARCHAR(30), - ja tem 
+	processador VARCHAR(30), - ja tem
+	ram VARCHAR(50), - ja tem
+	rom VARCHAR(50), - ja tem
+	codSetor INTEGER, - lista de setores disponiveis ? 
+    '''
     
 
     btnIncluir = Button(computador, text='Incluir')
