@@ -19,9 +19,7 @@ def salvarpessoa(nome, email, labelResult):
                 ###################################################################################
                 
                 if(checkEmail(email)==1):
-                    #if(mask(email) == 1):
                         print("Cadastrando usuario")
-                        ############## CORRIGIR QUERY PARA INSERIR USUARIO
                         cur.execute("""
                                     INSERT INTO PESSOA (nomeCompleto, email)
                                     VALUES (%s, %s);
@@ -29,9 +27,6 @@ def salvarpessoa(nome, email, labelResult):
                                     (str(nome), str(email)))
                         # conn.commit() # commit para atualizar o banco 
                         return 1        
-                    #else:
-                    #    print("Dominio email invalido")
-                    #    return -1
                 else:
                     print("Email cadastrado")
  
