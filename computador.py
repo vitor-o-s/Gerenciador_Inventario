@@ -1,5 +1,8 @@
+import banco
 import tkinter as tk
 from tkinter import Label, Entry, Button
+from functools import partial
+
 
 def CadastroComputador():
 
@@ -66,6 +69,20 @@ def CadastroComputador():
 	codSetor INTEGER, - lista de setores disponiveis ? 
     '''
     
+    labelResult = tk.Label(computador)  
+    labelResult.grid(row=7, column=2) 
 
     btnIncluir = Button(computador, text='Incluir')
     btnIncluir.grid(column=2, row=6)
+
+def FuncaoButton():
+
+    pass
+
+def checkfill(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
+
+    return (macETH.get()=='' or macLAN.get()==''
+            or tipo.get()=='' or modeloMB.get()=='' 
+            or numserie.get()=='' or modelonot.get()==''
+            or modelochipset.get()==''or processador.get()==''
+            or ram.get()=='' or rom.get()=='')
