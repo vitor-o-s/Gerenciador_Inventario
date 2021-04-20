@@ -45,13 +45,11 @@ def FuncaoButton(nome, email,labelResult):
             resultado = banco.salvarpessoa(nome.get(), email.get(), labelResult)
             if resultado == 1:
                 labelResult.config(text="Usuario cadastrado com sucesso")
-            elif resultado == -1:
-                labelResult.config(text="Dominio inválido")
             elif resultado == 0:
                 labelResult.config(text="Usuário já existe na tabela")
         else:
             print("Dominio email invalido")
-            return -1
+            return 
 
 def checkfill(nome, email):
 
