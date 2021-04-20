@@ -1,10 +1,15 @@
+import banco
 import tkinter as tk
 from tkinter import Label, Entry, Button
+from functools import partial
+
 
 def CadastroComputador():
+
     computador = tk.Tk()
     computador.geometry('400x300')
     computador.title("Cadastro de Computador")
+
     lblTipoComputador = Label(computador, text='Tipo:')
     lblTipoComputador.grid(column=0, row=0)
     txtTipoComputador = Entry(computador, width=50)
@@ -41,7 +46,58 @@ def CadastroComputador():
     lblCodigoSetor.grid(column=0, row=8)
     txtCodigoSetor = Entry(computador, width=50)
     txtCodigoSetor.grid(column=1, row=8)
-    
+    lblmacETH = Label(computador, text='macETH:')
+    lblmacETH.grid(column=0,row=9)
+    txtmacETH = Entry(computador,width=50)
+    txtmacETH.grid(column=1,row=9)
+    lblmacWLAN = Label(computador, text='macWLAN:')
+    lblmacWLAN.grid(column=0,row=10)
+    txtmacWLAN = Entry(computador,width=50)
+    txtmacWLAN.grid(column=1,row=10)
 
-    btnIncluir = Button(computador, text='Incluir')
+    '''
+	macETH MACADDR NOT NULL, - criado
+	macWLAN MACADDR NOT NULL, - criado
+	tipoComputador VARCHAR(8), - ja tem
+	modeloMB VARCHAR(30), - ja tem 
+	numeroSerie VARCHAR(30), -  ja tem 
+	modeloNotebook VARCHAR(30), - ja tem
+	modeloChipset VARCHAR(30), - ja tem 
+	processador VARCHAR(30), - ja tem
+	ram VARCHAR(50), - ja tem
+	rom VARCHAR(50), - ja tem
+	codSetor INTEGER, - lista de setores disponiveis ? 
+    '''
+    
+    labelResult = tk.Label(computador)  
+    labelResult.grid(row=7, column=2) 
+
+    btnIncluir = Button(computador, text='Incluir', 
+                        command=partial(FuncaoButton,
+                                        txtmacETH,
+                                        txtmacWLAN,
+                                        txtTipoComputador, 
+                                        txtModeloMB, 
+                                        txtNumeroSerie, 
+                                        txtModeloNotebook, 
+                                        txtModeloChipset, 
+                                        txtProcessador, 
+                                        txtRam,txtRom, 
+                                        labelResult))
     btnIncluir.grid(column=2, row=6)
+
+def FuncaoButton(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
+
+    if checkfill(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
+        labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
+
+    else:
+        pass
+
+def checkfill(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
+
+    return (macETH.get()=='' or macLAN.get()==''
+            or tipo.get()=='' or modeloMB.get()=='' 
+            or numserie.get()=='' or modelonot.get()==''
+            or modelochipset.get()==''or processador.get()==''
+            or ram.get()=='' or rom.get()=='')
