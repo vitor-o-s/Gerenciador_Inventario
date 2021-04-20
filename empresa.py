@@ -1,5 +1,8 @@
+import banco
 import tkinter as tk
 from tkinter import Label, Entry, Button
+from functools import partial
+
 
 def CadastroEmpresa():
     Empresa = tk.Tk()
@@ -21,5 +24,18 @@ def CadastroEmpresa():
     lblCodResponsavel.grid(column=0, row=3)
     txtCodResponsavel = Entry(Empresa, width=50)
     txtCodResponsavel.grid(column=1, row=3)
+
+
+    labelResult = tk.Label(Empresa)  
+    labelResult.grid(row=7, column=2) 
+
     btnIncluir = Button(Empresa, text='Incluir')
     btnIncluir.grid(column=2, row=6)
+
+def FuncaoButton():
+
+    pass
+
+def checkfill(codigo, nomeempresa, tel, codresp):
+
+    return codigo.get()=='' or nomeempresa.get()=='' or tel.get()=='' or codresp.get==''
