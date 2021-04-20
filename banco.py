@@ -80,6 +80,25 @@ def checkSetor(setor):
         cur2.close()
         return -1
 
+def checkEmpresa(empresa):
+
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    cur2 = conn.cursor()
+    cur2.execute("""
+            SELECT nomeEmpresa
+            FROM EMPRESA
+            WHERE 1=1 
+            AND nomeEmpresa =  '"""+str(empresa)+"""'   
+            """)
+    if cur2.fetchall() == []:
+        cur2.close()
+        return 1
+    else:
+        # print("Existe usuario cadastrado com este e-mail")
+        cur2.close()
+        return -1
+
+
 
 
 ##################################################
