@@ -86,17 +86,17 @@ def CadastroComputador():
                                         labelResult))
     btnIncluir.grid(column=2, row=6)
 
-def FuncaoButton(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
+def FuncaoButton(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
 
-    if checkfill(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
+    if checkfill(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
         labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
     else:
         pass
 
-def checkfill(macETH, macLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
+def checkfill(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
 
-    return (macETH.get()=='' or macLAN.get()==''
+    return (macETH.get()=='' or macWLAN.get()==''
             or tipo.get()=='' or modeloMB.get()=='' 
             or numserie.get()=='' or modelonot.get()==''
             or modelochipset.get()==''or processador.get()==''
