@@ -38,8 +38,15 @@ def FuncaoButton(codigo, nomeempresa, tel, codresp, labelResult):
         labelResult.config(text="Nome, Cargo ou Email não foi preenchido. Favor verificar")
 
     else:
-        pass
-
+        if masktel(tel.get()):
+            resultado = banco.salvarempresa(codigo.get(), nomeempresa.get(), tel.get(), codresp.get(), labelResult)
+            if resultado:
+                labelResult.config(text="Empresa cadastrada com sucesso!")
+            else:
+                labelResult.config(text="Empresa ja existente!")
+        else:
+            labelResult.config(text="Telefone invalido")
+            
 def checkfill(codigo, nomeempresa, tel, codresp):
 
     return codigo.get()=='' or nomeempresa.get()=='' or tel.get()=='' or codresp.get==''
