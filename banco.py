@@ -92,7 +92,7 @@ def salvarempresa(codigo, nomeempresa, tel, codresp, labelResult):
             conn.close()
             print('Finally, connection closed.')
 
-def salvarsetor(setor):
+def salvarsetor(codigo, setor, nomecoord, labelResult):
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     
     try:        
@@ -102,11 +102,11 @@ def salvarsetor(setor):
                 
                 if(checkSetor(setor)==1):
                         print("Cadastrando Computador")
-                        #cur.execute("""
-                        #            INSERT INTO SETOR (nomeCompleto, email)
-                        #            VALUES (%s, %s);
-                        #            """,
-                        #            (str(nome), str(email)))
+                        cur.execute("""
+                                    INSERT INTO SETOR (codEmpresa, codCoordenador, nomeSetor)
+                                    VALUES (%s, %s);
+                                    """,
+                                    (str(codigo), str(nomecoord), str(setor)))
                         # conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
