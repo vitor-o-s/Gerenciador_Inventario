@@ -48,7 +48,7 @@ def FuncaoButton(nome, email,labelResult):
             elif resultado == 0:
                 labelResult.config(text="Usuário já existe na tabela")
         else:
-            print("Dominio email invalido")
+            labelResult.config(text="Dominio email invalido")
             return 
 
 def checkfill(nome, email):
