@@ -58,7 +58,7 @@ def salvarcomputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, model
             conn.close()
             print('Finally, connection closed.')
 
-def salvarempresa(empresa):
+def salvarempresa(codigo, nomeempresa, tel, codresp, labelResult):
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     
     try:        
@@ -66,13 +66,13 @@ def salvarempresa(empresa):
             print('Connection established to PostgreSQL.')
             with conn.cursor() as cur:
                 
-                if(checkEmpresa(empresa)==1):
+                if(checkEmpresa(nomeempresa)==1):
                         print("Cadastrando Computador")
-                        #cur.execute("""
-                        #            INSERT INTO EMPRESA (nomeCompleto, email)
-                        #            VALUES (%s, %s);
-                        #            """,
-                        #            (str(nome), str(email)))
+                        cur.execute("""
+                                    INSERT INTO EMPRESA (codEmpresa, nomeEmpresa, telefone)
+                                    VALUES (%s, %s, %s);
+                                    """,
+                                    (str(codigo), str(nomeempresa), str(tel)))
                         # conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
