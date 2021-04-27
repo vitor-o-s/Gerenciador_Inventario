@@ -35,7 +35,7 @@ def CadastroEmpresa():
 def FuncaoButton(codigo, nomeempresa, tel, codresp, labelResult):
 
     if checkfill(codigo, nomeempresa, tel, codresp):
-        labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
+        labelResult.config(text="Nome, Cargo ou Email não foi preenchido. Favor verificar")
 
     else:
         pass
