@@ -35,7 +35,11 @@ def FuncaoButton(codigo, setor, codcoord, labelResult):
         labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
     else:
-        pass
+        resultado = banco.salvarsetor(codigo.get(), setor.get(), codcoord.get(), labelResult)
+        if resultado:
+            labelResult.config(text = "Setor cadastrado com sucesso!")
+        else:
+            labelResult.config(text = "O setor ja existe!")
 
 def checkfill(codigo, setor, codcoord):
 
