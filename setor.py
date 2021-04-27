@@ -9,7 +9,7 @@ def CadastroSetor():
     Setor = tk.Tk()
     Setor.geometry('400x300')
     Setor.title('Cadastro de Setores')
-    lblCodigo = Label(Setor, text='Codigo:')
+    lblCodigo = Label(Setor, text='Codigo do setor:')
     lblCodigo.grid(column=0, row=0)
     txtCodigo = Entry(Setor, width=10)
     txtCodigo.grid(column=1, row=0)
@@ -17,7 +17,7 @@ def CadastroSetor():
     lblNomeSetor.grid(column=0, row=1)
     txtNomeSetor = Entry(Setor, width=30)
     txtNomeSetor.grid(column=1, row=1)
-    lblCodigoCoordenador = Label(Setor, text='Nome Coordenador:')
+    lblCodigoCoordenador = Label(Setor, text='Código Coordenador:')
     lblCodigoCoordenador.grid(column=0, row=2)
     txtCodigoCoordenador = Entry(Setor, width=10)
     txtCodigoCoordenador.grid(column=1, row=2)
@@ -29,14 +29,14 @@ def CadastroSetor():
     btnIncluir = Button(Setor, text='Incluir', command = partial(FuncaoButton, txtCodigo, txtNomeSetor,txtCodigoCoordenador, labelResult))
     btnIncluir.grid(column=1, row=3)
 
-def FuncaoButton(codigo, setor, nomecoord, labelResult):
+def FuncaoButton(codigo, setor, codcoord, labelResult):
 
-    if checkfill(codigo, setor, nomecoord):
+    if checkfill(codigo, setor, codcoord):
         labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
     else:
         pass
 
-def checkfill(codigo, setor, nomecoord):
+def checkfill(codigo, setor, codcoord):
 
-    return codigo.get()=='' or nomecoord.get()=='' or setor.get==''
+    return codigo.get()=='' or codcoord.get()=='' or setor.get==''
