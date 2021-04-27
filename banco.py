@@ -5,6 +5,127 @@ user = 'nkqrevofvmcinl'
 db   = 'dbvmtp12eqm8g8'
 port = 5432
 
+def salvarcomputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
+
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    
+    try:        
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if(checkComputador(macETH,macWLAN)==1):
+                        print("Cadastrando Computador")
+                        cur.execute("""
+                                    INSERT INTO COMPUTADOR (macETH,
+                                                            macWLAN,
+                                                            tipoComputador,
+                                                            modeloMB,
+                                                            numeroSerie,
+                                                            modeloNotebook,
+                                                            modeloChipset,
+                                                            processador,
+                                                            ram,
+                                                            rom)
+                                    VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s);
+                                    """,
+                                    (str(macETH),
+                                     str(macWLAN),
+                                     str(tipo),
+                                     str(modeloMB),
+                                     str(numserie),
+                                     str(modelonot),
+                                     str(modelochipset),
+                                     str(processador),
+                                     str(ram),
+                                     str(rom) ))
+                        # conn.commit() # commit para atualizar o banco 
+                        return 1        
+                else:
+                    print("Computador cadastrado")
+ 
+                    return 0
+            
+            
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+def salvarempresa(empresa):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    
+    try:        
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if(checkEmpresa(empresa)==1):
+                        print("Cadastrando Computador")
+                        #cur.execute("""
+                        #            INSERT INTO EMPRESA (nomeCompleto, email)
+                        #            VALUES (%s, %s);
+                        #            """,
+                        #            (str(nome), str(email)))
+                        # conn.commit() # commit para atualizar o banco 
+                        return 1        
+                else:
+                    print("Computador cadastrado")
+ 
+                    return 0
+            
+            
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+def salvarsetor(setor):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    
+    try:        
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if(checkSetor(setor)==1):
+                        print("Cadastrando Computador")
+                        #cur.execute("""
+                        #            INSERT INTO SETOR (nomeCompleto, email)
+                        #            VALUES (%s, %s);
+                        #            """,
+                        #            (str(nome), str(email)))
+                        # conn.commit() # commit para atualizar o banco 
+                        return 1        
+                else:
+                    print("Computador cadastrado")
+ 
+                    return 0
+            
+            
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
 def salvarpessoa(nome, email, labelResult):
     
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
@@ -62,6 +183,7 @@ def checkEmail(email):
         cur2.close()
         return -1 
 
+#Testar
 def checkSetor(setor):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
@@ -80,6 +202,7 @@ def checkSetor(setor):
         cur2.close()
         return -1
 
+#Testar
 def checkEmpresa(empresa):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
@@ -98,10 +221,27 @@ def checkEmpresa(empresa):
         cur2.close()
         return -1
 
+#Testar
+def checkComputador(macETH, macWLAN):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    cur2 = conn.cursor()
+    cur2.execute("""
+            SELECT macETH,
+            FROM COMPUTADOR
+            WHERE 1=1 
+            AND macETH =  '"""+str(macETH)+"""'   
+            """)
+    if cur2.fetchall() == []:
+        cur2.close()
+        return 1
+    else:
+        # print("Existe usuario cadastrado com este e-mail")
+        cur2.close()
+        return -1
 
 
 
-##################################################
+
 #RETORNA TODOS USUARIOS
 #cur.execute("SELECT * FROM PESSOA ;")
 
