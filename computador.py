@@ -92,7 +92,23 @@ def FuncaoButton(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochi
         labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
     else:
-        pass
+        resultado = banco.salvarcomputador(macETH.get(),
+                                            macWLAN.get(),
+                                            tipo.get(),
+                                            modeloMB.get(),
+                                            numserie.get(),
+                                            modelonot.get(),
+                                            modelochipset.get(),
+                                            processador.get(),
+                                            ram.get(),
+                                            rom.get(),
+                                            labelResult)
+        if resultado:
+
+            labelResult.config(text="Computador cadastrado com sucesso1")
+        else:
+            labelResult.config(text="Computador já existe na tabela")
+        
 
 def checkfill(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
 
