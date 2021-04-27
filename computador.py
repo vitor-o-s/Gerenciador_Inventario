@@ -89,7 +89,7 @@ def CadastroComputador():
 def FuncaoButton(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
 
     if checkfill(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
-        labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
+        labelResult.config(text="Um dos campos não foi preenchido. Favor verificar")
 
     else:
         resultado = banco.salvarcomputador(macETH.get(),
@@ -105,7 +105,7 @@ def FuncaoButton(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochi
                                             labelResult)
         if resultado:
 
-            labelResult.config(text="Computador cadastrado com sucesso1")
+            labelResult.config(text="Computador cadastrado com sucesso!")
         else:
             labelResult.config(text="Computador já existe na tabela")
         
