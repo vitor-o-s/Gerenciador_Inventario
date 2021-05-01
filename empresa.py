@@ -1,5 +1,8 @@
+import banco
 import tkinter as tk
 from tkinter import Label, Entry, Button
+from functools import partial
+
 
 def CadastroEmpresa():
     Empresa = tk.Tk()
@@ -21,5 +24,33 @@ def CadastroEmpresa():
     lblCodResponsavel.grid(column=0, row=3)
     txtCodResponsavel = Entry(Empresa, width=50)
     txtCodResponsavel.grid(column=1, row=3)
-    btnIncluir = Button(Empresa, text='Incluir')
+
+
+    labelResult = tk.Label(Empresa)  
+    labelResult.grid(row=7, column=2) 
+
+    btnIncluir = Button(Empresa, text='Incluir', command=partial(FuncaoButton, txtCodigo, txtNomeEmpresa, txtTelefone, txtCodResponsavel, labelResult))
     btnIncluir.grid(column=2, row=6)
+
+def FuncaoButton(codigo, nomeempresa, tel, codresp, labelResult):
+
+    if checkfill(codigo, nomeempresa, tel, codresp):
+        labelResult.config(text="Um dos campos não foi preenchido. Favor verificar")
+
+    else:
+        if masktel(tel.get()):
+            resultado = banco.salvarempresa(codigo.get(), nomeempresa.get(), tel.get(), codresp.get(), labelResult)
+            if resultado:
+                labelResult.config(text="Empresa cadastrada com sucesso!")
+            else:
+                labelResult.config(text="Empresa ja existente!")
+        else:
+            labelResult.config(text="Telefone invalido")
+
+def checkfill(codigo, nomeempresa, tel, codresp):
+
+    return codigo.get()=='' or nomeempresa.get()=='' or tel.get()=='' or codresp.get==''
+
+def masktel(tel):
+
+    return len(tel) >= 8 #versão mascara inicial
