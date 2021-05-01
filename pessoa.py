@@ -3,7 +3,19 @@ from tkinter import Label, Entry, Button
 from functools import partial
 import banco
 
+''' MÉTODOS IMPLEMENTADOS:
 
+    - CadastroPessoa() #Tela Cadastro
+    - ConsultaPessoa() #Tela Consulta
+    - FuncaoButtonCadastro() #Botao tela Cadastro
+    - FuncaoButtonConsulta() #Botao tela Consulta
+    - checkfill() #Verifica se campos vazio
+    - mask() #Verifica se mascara email valida
+    - checkDomain() #Verifica se domínio email válido
+    
+
+
+'''
 ##############################################################################################################################
 
 ########################################## CADASTRO PESSOA ###################################################################
@@ -57,7 +69,7 @@ def ConsultaPessoa():
     Pessoa = tk.Tk()
     
     Pessoa.geometry('400x300')
-    Pessoa.title("Cadastro de Pessoas")
+    Pessoa.title("Consultando Pessoas")
     
 
 
@@ -84,7 +96,7 @@ def ConsultaPessoa():
     labelResult = tk.Label(Pessoa)  
     labelResult.grid(row=7, column=1) 
 
-    btnIncluir = Button(Pessoa, text='Incluir', command = partial(FuncaoButtonConsulta, 
+    btnIncluir = Button(Pessoa, text='Consultar', command = partial(FuncaoButtonConsulta, 
                                                                   txtNomePessoa, 
                                                                   txtEmail, labelResult))
     btnIncluir.grid(column=1, row=6)
@@ -119,7 +131,15 @@ def FuncaoButtonCadastro(nome, email,labelResult):
 ##############
 ##############################################################################################################################
 def FuncaoButtonConsulta(nome, email, labelResult):
-    labelResult.config(text = "Consultando Pessoa")
+    pessoas = banco.ConsultaPessoa(nome.get(), email.get(), labelResult)
+    # print("nome da pessoa: %s" % nome.get())
+    if pessoas != None:
+        for p in pessoas:
+            print(p)
+        labelResult.config(text= "resultado encontrado")
+    else:
+        labelResult.config(text= "resultado não encontrado")
+    # labelResult.config(text = "Consultando Pessoa")
 
 
 
