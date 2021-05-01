@@ -3,29 +3,38 @@ import tkinter as tk
 from tkinter import Label, Menu
 
 def clickedpessoa():
-
     return pessoa.CadastroPessoa()
 
 def clickedsetor():
-
     return setor.CadastroSetor()
 
 def clickedempresa():
-
     return empresa.CadastroEmpresa()
 
 def clickedcomputador():
-
     return computador.CadastroComputador()
 
-if __name__ == "__main__":
+def ConsultaPessoa():
+    return pessoa.ConsultaPessoa()
 
-    main = tk.Tk()
-    main.geometry('800x600')
-    main.title("SistemaInventário")
-    lbl = Label(main, text="Seja bem vindo")
-    lbl.grid(column=0, row=0)
-    menu = Menu(main)
+def ConsultaSetor():
+    return setor.ConsultaSetor()
+
+def ConsultaEmpresa():
+    return empresa.ConsultaEmpresa()
+
+def ConsultaComputador():
+    return computador.ConsultaComputador()
+
+
+##############################################################################################################################
+
+########################################## CRIAÇÃO BOTÃO DE CADASTRO ########################################################
+
+##############################################################################################################################
+
+def BotaoCadastro(menu):
+    #Cria o botão de cadastro e inclui as opções 
     itemCadastro = Menu(menu)
     itemCadastro.add_command(label='Empresa', command=clickedempresa)
     itemCadastro.add_separator()
@@ -36,6 +45,56 @@ if __name__ == "__main__":
     itemCadastro.add_command(label='Setor', command=clickedsetor)
     itemCadastro.add_separator()
     itemCadastro.add_command(label='Sair', command=quit)
-    menu.add_cascade(label='Cadastro', menu=itemCadastro)
-    main.config(menu=menu)
+    return itemCadastro
+
+##############################################################################################################################
+
+########################################## CRIAÇÃO BOTÃO DE CONSULTA ########################################################
+
+##############################################################################################################################
+
+def BotaoConsulta(menu):
+    itemConsulta = Menu(menu)
+    
+    itemConsulta.add_command(label='Empresa', command=ConsultaEmpresa)
+    itemConsulta.add_separator()
+    itemConsulta.add_command(label='Computador', command=ConsultaComputador)
+    itemConsulta.add_separator()
+    itemConsulta.add_command(label='Pessoa', command=ConsultaPessoa)
+    itemConsulta.add_separator()
+    itemConsulta.add_command(label='Setor', command=ConsultaSetor)
+
+    return itemConsulta 
+
+
+
+
+
+
+
+if __name__ == "__main__":
+
+    main = tk.Tk()
+    main.geometry('800x600')
+    main.title("SistemaInventário")
+    lbl = Label(main, text="Seja bem vindo")
+    lbl.grid(column=0, row=0)
+
+    menubar = Menu(main)
+    # dentro da barra de menu cria a opção do Cadastro (botão)
+    itemCadastro = BotaoCadastro(menubar)
+    itemCadastro.add_separator()
+
+    # dentro da barra de menu cria a opção de Consulta (botão)
+    itemConsulta = BotaoConsulta(menubar)
+    itemConsulta.add_separator()
+
+    # Adiciona 
+    menubar.add_cascade(label='Cadastro', menu=itemCadastro)
+    menubar.add_cascade(label='Consulta', menu=itemConsulta)
+
+    main.config(menu=menubar)
     main.mainloop()
+
+#Gustavo Martins de Souza
+#gustavos@empresa.com.br
