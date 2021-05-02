@@ -3,7 +3,11 @@ import tkinter as tk
 from tkinter import Label, Entry, Button
 from functools import partial
 
+####################################################################################
 
+############################ CADASTRO SETOR ########################################
+
+####################################################################################
 def CadastroSetor():
 
     Setor = tk.Tk()
@@ -26,10 +30,52 @@ def CadastroSetor():
     labelResult = tk.Label(Setor)  
     labelResult.grid(row=4, column=1) 
 
-    btnIncluir = Button(Setor, text='Incluir', command = partial(FuncaoButton, txtCodigo, txtNomeSetor,txtCodigoCoordenador, labelResult))
+    btnIncluir = Button(Setor, text='Incluir', command = partial(FuncaoButtonCadastro, 
+                                                                 txtCodigo, 
+                                                                 txtNomeSetor, 
+                                                                 txtCodigoCoordenador, labelResult))
     btnIncluir.grid(column=1, row=3)
 
-def FuncaoButton(codigo, setor, codcoord, labelResult):
+####################################################################################
+
+############################ CONSULTA SETOR #########################################
+
+####################################################################################
+# Ajeitar
+def ConsultaSetor():
+    Setor = tk.Tk()
+    Setor.geometry('400x300')
+
+    Setor.title('Consulte Setores')
+    lblCodigo = Label(Setor, text='Codigo do setor:')
+    lblCodigo.grid(column=0, row=0)
+    txtCodigo = Entry(Setor, width=10)
+    txtCodigo.grid(column=1, row=0)
+    
+    lblNomeSetor = Label(Setor, text='Setor:')
+    lblNomeSetor.grid(column=0, row=1)
+    txtNomeSetor = Entry(Setor, width=30)
+    txtNomeSetor.grid(column=1, row=1)
+    
+    lblCodigoCoordenador = Label(Setor, text='Código Coordenador:')
+    lblCodigoCoordenador.grid(column=0, row=2)
+    txtCodigoCoordenador = Entry(Setor, width=10)
+    txtCodigoCoordenador.grid(column=1, row=2)
+
+    labelResult = tk.Label(Setor)  
+    labelResult.grid(row=4, column=1) 
+
+    btnIncluir = Button(Setor, text='Consultar', command = partial(FuncaoButtonConsulta, txtCodigo, txtNomeSetor,txtCodigoCoordenador, labelResult))
+    btnIncluir.grid(column=1, row=3)
+
+
+
+####################################################################################
+
+############################ FUNÇÃO BOTÃO CADASTRO ##################################
+
+####################################################################################
+def FuncaoButtonCadastro(codigo, setor, codcoord, labelResult):
 
     if checkfill(codigo, setor, codcoord):
         labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
@@ -40,6 +86,15 @@ def FuncaoButton(codigo, setor, codcoord, labelResult):
             labelResult.config(text = "Setor cadastrado com sucesso!")
         else:
             labelResult.config(text = "O setor ja existe!")
+
+
+####################################################################################
+
+############################# FUNÃO BOTÃO CONSULTA #################################
+
+####################################################################################
+def FuncaoButtonConsulta(codigo, setor, codcoord, labelResult):
+    labelResult.config(text = "Retorno Consulta")
 
 def checkfill(codigo, setor, codcoord):
 

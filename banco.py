@@ -152,8 +152,6 @@ def salvarpessoa(nome, email, labelResult):
                     print("Email cadastrado")
  
                     return 0
-            
-            
         else:
             print('Connection not established to PostgreSQL.')
             
@@ -164,6 +162,55 @@ def salvarpessoa(nome, email, labelResult):
         if conn is not None:
             conn.close()
             print('Finally, connection closed.')
+
+def ConsultaPessoa(nome, email, labelResult):
+
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if (nome=='' and email ==''):
+                    cur.execute("""
+                                SELECT * FROM PESSOA
+                                """)
+                elif(nome!='' and email == ''):
+                    cur.execute("""
+                                SELECT * FROM PESSOA
+                                WHERE 1=1
+                                AND nomeCompleto LIKE '%s%%';
+                                """ % nome)
+
+                elif(nome == '' and email != ''):
+                    cur.execute("""
+                                SELECT * FROM PESSOA
+                                WHERE 1=1
+                                AND email LIKE LOWER('%s%%');
+                                """ % (email))
+                else:
+                    cur.execute("""
+                                SELECT * FROM PESSOA
+                                WHERE 1=1
+                                AND nomeCompleto LIKE '%s%%'
+                                AND email LIKE LOWER('%s%%')
+                                """ % (nome, email))
+                        # conn.commit() # commit para atualizar o banco 
+                pessoas = cur.fetchall()
+
+                return pessoas
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+   
+
 
 def checkEmail(email):
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
