@@ -1,13 +1,32 @@
 import banco
 import tkinter as tk
-from tkinter import Label, Entry, Button
+from tkinter import *
 from functools import partial
 
-####################################################################################
 
-############################ CADASTRO SETOR ########################################
 
-####################################################################################
+
+''' MÉTODOS IMPLEMENTADOS:
+
+    - CadastroSetor() #Tela Cadastro
+    - ConsultaSetor() #Tela Consulta
+    - FuncaoButtonCadastro() #Botao tela Cadastro
+    - FuncaoButtonConsulta() #Botao tela Consulta
+    - checkfill() #Verifica se campos vazio
+
+
+'''
+
+""" LISTA CORREÇÃO:
+
+
+
+"""
+
+#####################################################################
+############################ CADASTRO SETOR #########################
+#####################################################################
+
 def CadastroSetor():
 
     Setor = tk.Tk()
@@ -75,13 +94,13 @@ def ConsultaSetor():
 ############################ FUNÇÃO BOTÃO CADASTRO ##################################
 
 ####################################################################################
-def FuncaoButtonCadastro(codigo, setor, codcoord, labelResult):
+def FuncaoButtonCadastro(codigoSetor, setor, codcoord, labelResult):
 
-    if checkfill(codigo, setor, codcoord):
+    if checkfill(codigoSetor, setor, codcoord):
         labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
     else:
-        resultado = banco.salvarsetor(codigo.get(), setor.get(), codcoord.get(), labelResult)
+        resultado = banco.salvarsetor(codigoSetor.get(), setor.get(), codcoord.get(), labelResult)
         if resultado:
             labelResult.config(text = "Setor cadastrado com sucesso!")
         else:
@@ -93,8 +112,33 @@ def FuncaoButtonCadastro(codigo, setor, codcoord, labelResult):
 ############################# FUNÃO BOTÃO CONSULTA #################################
 
 ####################################################################################
-def FuncaoButtonConsulta(codigo, setor, codcoord, labelResult):
-    labelResult.config(text = "Retorno Consulta")
+def FuncaoButtonConsulta(codigoSetor, setor, codcoord, labelResult):
+
+    setores = banco.ConsultaSetor(codigoSetor.get(), setor.get(), codcoord.get(), labelResult)
+
+    if setores != None:
+        root = tk.Tk()
+        root.geometry('400x300')
+        root.title("Lista de Setores")
+        
+
+
+        scrollbar = Scrollbar(root)
+        scrollbar.pack(side = RIGHT, fill=Y)
+        
+        ListaSetor = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        for linha in range(0,len(setores)):
+            ListaSetor.insert(END, setores[linha])            
+        
+        ListaSetor.pack(side = LEFT, fill = BOTH)
+        scrollbar.config(command= ListaSetor.yview)
+        
+        labelResult.config(text = "Retorno Consulta")
+    # if setores != None: 
+    #     for setor in setores:
+    #         print(setor)
+    else:
+        labelResult.config(text = "Setor não encontrado")
 
 def checkfill(codigo, setor, codcoord):
 

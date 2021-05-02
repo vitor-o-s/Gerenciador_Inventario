@@ -1,7 +1,9 @@
 import tkinter as tk
-from tkinter import Label, Entry, Button
+from tkinter import *
 from functools import partial
 import banco
+import time
+#import TkTreectrl as treectrl
 
 ''' MÉTODOS IMPLEMENTADOS:
 
@@ -16,6 +18,17 @@ import banco
 
 
 '''
+
+"""     LISTA DE CORREÇÃO
+    
+    FUNCAO BOTAO CONSULTA:
+    - TERMINAR TELA DE CONSULTA 
+    --> AO CONSULTAR SEM PREENCHER NENHUM PARAMETRO DEVE TRAZER TODAS PESSOAS 
+    --> LISTAR NOME DA COLUNA E SEUS RESPECTIVOS VALORES (Ex: https://stackoverflow.com/questions/5286093/display-listbox-with-columns-using-tkinter)
+    
+    - CRIAR UMA NOVA COLUNA "CARGO" PARA OS USUÁRIOS (Pode ser integer ou sting) 
+    
+"""
 ##############################################################################################################################
 
 ########################################## CADASTRO PESSOA ###################################################################
@@ -130,18 +143,52 @@ def FuncaoButtonCadastro(nome, email,labelResult):
 ########################################## BOTÃO DE CONSULTA #################################################################
 ##############
 ##############################################################################################################################
+
+
 def FuncaoButtonConsulta(nome, email, labelResult):
     pessoas = banco.ConsultaPessoa(nome.get(), email.get(), labelResult)
-    # print("nome da pessoa: %s" % nome.get())
+
+    #colunas = getColumnName()
     if pessoas != None:
-        for p in pessoas:
-            print(p)
+        root = tk.Tk()
+        root.geometry('400x300')
+        root.title("Lista de Pessoas")
+        
+        ### TESTE
+        #ListaPessoa = treectrl.MultiListbox(root)
+        # ListaPessoa.pack(side='top', fill='both', expand=1)
+        # tk.Button(root, text='Close', command=root.quit).pack(side='top', pady=5)
+        # ListaPessoa.focus_set()   
+        # ListaPessoa.configure(selectcmd=select_cmd, selectmode='extended')
+        # ListaPessoa.config(columns=colunas)
+
+
+        scrollbar = Scrollbar(root)
+        scrollbar.pack(side = RIGHT, fill=Y)
+        
+        ListaPessoa = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        for linha in range(0,len(pessoas)):
+            ListaPessoa.insert(END, pessoas[linha])            
+        
+        ListaPessoa.pack(side = LEFT, fill = BOTH)
+        scrollbar.config(command= ListaPessoa.yview)
+        
         labelResult.config(text= "resultado encontrado")
     else:
         labelResult.config(text= "resultado não encontrado")
-    # labelResult.config(text = "Consultando Pessoa")
 
 
+    ## RETORNA COLUNAS DA TABELA (TODAS)
+def getColumnName():
+    COLUMN_NAME = banco.QueryColumnPessoa()
+    colunas_tabela = []
+
+    if COLUMN_NAME != None: 
+        for i in COLUMN_NAME:
+            colunas_tabela.append(i[3])
+        return colunas_tabela
+    else:
+        return []
 
 
 def checkfill(nome, email):
