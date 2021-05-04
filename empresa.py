@@ -1,7 +1,20 @@
 import banco
 import tkinter as tk
-from tkinter import Label, Entry, Button
+from tkinter import *
 from functools import partial
+
+
+''' MÉTODOS IMPLEMENTADOS:
+
+    - CadastroEmpresa()  #Tela Cadastro
+    - ConsultaEmpresa()  #Tela Consulta
+    - FuncaoButtonCadastro() #Botao tela Cadastro 
+    - FuncaoButtonConsulta() #Botao tela Consulta
+    - checkfill() #Verifica se campos vazio
+    - masktel()
+
+'''
+
 
 ##############################################################################################################################
 
@@ -124,7 +137,29 @@ def FuncaoButtonCadastro(codigo, nomeempresa, tel, codresp, labelResult):
 
 
 def FuncaoButtonConsulta(codigo, nomeempresa, tel, codresp, labelResult):
-    labelResult.config(text="Consultando")
+
+    empresas = banco.ConsultaEmpresa(codigo.get(), nomeempresa.get(), tel.get(), codresp.get(), labelResult)
+    
+    if empresas != None:
+        root = tk.Tk()
+        root.geometry('400x300')
+        root.title("Lista de Empresas")
+
+        scrollbar = Scrollbar(root)
+        scrollbar.pack(side = RIGHT, fill=Y)
+        
+        ListaEmpresa = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        for linha in range(0,len(empresas)):
+            ListaEmpresa.insert(END, empresas[linha])            
+        
+        ListaEmpresa.pack(side = LEFT, fill = BOTH)
+        scrollbar.config(command= ListaEmpresa.yview)
+        
+        labelResult.config(text = "Retorno Consulta")
+
+    else:
+        labelResult.config(text = "Empresa não encontrado")
+
 
 def checkfill(codigo, nomeempresa, tel, codresp):
 

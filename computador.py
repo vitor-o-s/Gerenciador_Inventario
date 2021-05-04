@@ -1,7 +1,24 @@
 import banco
 import tkinter as tk
-from tkinter import Label, Entry, Button
+from tkinter import *
 from functools import partial
+
+
+''' MÉTODOS IMPLEMENTADOS:
+    
+    - CadastroComputador() #Tela Cadastro
+    - ConsultaComputador() #Tela Consulta
+    - FuncaoButtonCadastro() #Botao tela Cadastro
+    - FuncaoButtonConsulta() #Botao tela Consulta
+    - checkfill #Verifica se campos vazio
+
+
+    
+
+
+'''
+
+
 
 ##############################################################################################################################
 
@@ -265,8 +282,27 @@ def FuncaoButtonCadastro(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, m
 ##############################################################################################################################
 
 def FuncaoButtonConsulta(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
-    labelResult.config(text="Consultando")
+    
+    computadores = banco.ConsultaComputador(macETH.get(), macWLAN.get(), tipo.get(), modeloMB.get(), numserie.get(), modelonot.get(), modelochipset.get(), processador.get(), ram.get(), rom.get(), labelResult)
+    if computadores != None:
+        root = tk.Tk()
+        root.geometry('400x300')
+        root.title("Lista de computadores")
+
+        scrollbar = Scrollbar(root)
+        scrollbar.pack(side = RIGHT, fill=Y)
         
+        ListaComputadores = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        for linha in range(0,len(computadores)):
+            ListaComputadores.insert(END, computadores[linha])            
+        
+        ListaComputadores.pack(side = LEFT, fill = BOTH)
+        scrollbar.config(command= ListaComputadores.yview)
+        
+        labelResult.config(text = "Retorno Consulta")
+
+    else:
+        labelResult.config(text = "Empresa não encontrado")      
 
 def checkfill(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom):
 

@@ -5,6 +5,287 @@ user = 'nkqrevofvmcinl'
 db   = 'dbvmtp12eqm8g8'
 port = 5432
 
+
+
+'''
+    Métodos implementados:
+
+    - salvarpessoa()
+    - ConsultaPessoa()
+    - salvarsetor()
+    - salvarempresa()
+    - salvarcomputador
+    - checkEmail()
+    - checkSetor()
+    - checkEmpresa()
+    - checkComputador()
+
+
+
+
+'''
+########################################################################
+######################## INCLUSAO PESSOA ###############################
+########################################################################
+
+def salvarpessoa(nome, email, labelResult):
+    
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+
+                ###################################################################################
+                ####### BUSCA NO BANCO INFORMAÇOES SE JÁ EXISTE USUARIO CADASTRADO ################
+                ###################################################################################
+                
+                if(checkEmail(email)==1):
+                        print("Cadastrando usuario")
+                        cur.execute("""
+                                    INSERT INTO PESSOA (nomeCompleto, email)
+                                    VALUES (%s, %s);
+                                    """,
+                                    (str(nome), str(email)))
+                        # conn.commit() # commit para atualizar o banco 
+                        return 1        
+                else:
+                    print("Email cadastrado")
+ 
+                    return 0
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+################################################################
+######################## CONSULTA PESSOA #######################
+################################################################
+
+def ConsultaPessoa(nome, email, labelResult):
+
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if (nome=='' and email ==''):
+                    cur.execute("""
+                                SELECT * FROM PESSOA
+                                """)
+                elif(nome!='' and email == ''):
+                    cur.execute("""
+                                SELECT * FROM PESSOA
+                                WHERE 1=1
+                                AND nomeCompleto LIKE '%s%%';
+                                """ % nome)
+
+                elif(nome == '' and email != ''):
+                    cur.execute("""
+                                SELECT * FROM PESSOA
+                                WHERE 1=1
+                                AND email LIKE LOWER('%s%%');
+                                """ % (email))
+                else:
+                    cur.execute("""
+                                SELECT * FROM PESSOA
+                                WHERE 1=1
+                                AND nomeCompleto LIKE '%s%%'
+                                AND email LIKE LOWER('%s%%')
+                                """ % (nome, email))
+                        # conn.commit() # commit para atualizar o banco 
+                registros = cur.fetchall()
+
+                return registros
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+    ### RETORNA TODAS COLUNAS DA TABELA
+def QueryColumnPessoa():
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                cur.execute(""" 
+                            SELECT *
+                            FROM INFORMATION_SCHEMA.COLUMNS
+                            WHERE TABLE_NAME = 'pessoa'
+                            """)
+                registros = cur.fetchall()
+            return registros
+        else:
+            print('Connection not established to PostgreSQL.')
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+################################################################
+######################## INCLUIR SETOR   #######################
+################################################################
+
+def salvarsetor(codigo, setor, codcoord, labelResult):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    
+    try:        
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if(checkSetor(setor)==1):
+                        print("Cadastrando Computador")
+                        cur.execute("""
+                                    INSERT INTO SETOR (codEmpresa, codCoordenador, nomeSetor)
+                                    VALUES (%s, %s);
+                                    """,
+                                    (str(codigo), str(codcoord), str(setor)))
+                        # conn.commit() # commit para atualizar o banco 
+                        return 1        
+                else:
+                    print("Computador cadastrado")
+ 
+                    return 0
+            
+            
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+
+
+def ConsultaSetor(codigoSetor, setor, codcoord, labelResult):
+
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if (setor=='' and codigoSetor ==''):
+                    cur.execute("""
+                                SELECT * FROM SETOR
+                                """)
+                ### Terminar de colocar condições para consulta
+
+
+                        # conn.commit() # commit para atualizar o banco 
+                setores = cur.fetchall()
+
+                return setores
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+
+################################################################
+######################## INCLUIR EMPRESA #######################
+################################################################
+
+
+def salvarempresa(codigo, nomeempresa, tel, codresp, labelResult):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    
+    try:        
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if(checkEmpresa(nomeempresa)==1):
+                        print("Cadastrando Computador")
+                        cur.execute("""
+                                    INSERT INTO EMPRESA (codEmpresa, nomeEmpresa, telefone)
+                                    VALUES (%s, %s, %s);
+                                    """,
+                                    (str(codigo), str(nomeempresa), str(tel)))
+                        # conn.commit() # commit para atualizar o banco 
+                        return 1        
+                else:
+                    print("Computador cadastrado")
+ 
+                    return 0
+            
+            
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+def ConsultaEmpresa(codigo, nomeempresa, tel, codresp, labelResult):
+
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                
+                if (nomeempresa=='' and codresp ==''):
+                    cur.execute("""
+                                SELECT * FROM EMPRESA
+                                """)
+                ### Terminar de colocar condições para consulta
+
+
+                        # conn.commit() # commit para atualizar o banco 
+                empresas = cur.fetchall()
+
+                return empresas
+        else:
+            print('Connection not established to PostgreSQL.')
+            
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+
+################################################################
+######################## INCLUIR COMPUTADOR ####################
+################################################################
+
+
 def salvarcomputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
@@ -58,112 +339,8 @@ def salvarcomputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, model
             conn.close()
             print('Finally, connection closed.')
 
-def salvarempresa(codigo, nomeempresa, tel, codresp, labelResult):
-    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
-    
-    try:        
-        if conn is not None:
-            print('Connection established to PostgreSQL.')
-            with conn.cursor() as cur:
-                
-                if(checkEmpresa(nomeempresa)==1):
-                        print("Cadastrando Computador")
-                        cur.execute("""
-                                    INSERT INTO EMPRESA (codEmpresa, nomeEmpresa, telefone)
-                                    VALUES (%s, %s, %s);
-                                    """,
-                                    (str(codigo), str(nomeempresa), str(tel)))
-                        # conn.commit() # commit para atualizar o banco 
-                        return 1        
-                else:
-                    print("Computador cadastrado")
- 
-                    return 0
-            
-            
-        else:
-            print('Connection not established to PostgreSQL.')
-            
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    
-    finally:
-        if conn is not None:
-            conn.close()
-            print('Finally, connection closed.')
 
-def salvarsetor(codigo, setor, codcoord, labelResult):
-    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
-    
-    try:        
-        if conn is not None:
-            print('Connection established to PostgreSQL.')
-            with conn.cursor() as cur:
-                
-                if(checkSetor(setor)==1):
-                        print("Cadastrando Computador")
-                        cur.execute("""
-                                    INSERT INTO SETOR (codEmpresa, codCoordenador, nomeSetor)
-                                    VALUES (%s, %s);
-                                    """,
-                                    (str(codigo), str(codcoord), str(setor)))
-                        # conn.commit() # commit para atualizar o banco 
-                        return 1        
-                else:
-                    print("Computador cadastrado")
- 
-                    return 0
-            
-            
-        else:
-            print('Connection not established to PostgreSQL.')
-            
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    
-    finally:
-        if conn is not None:
-            conn.close()
-            print('Finally, connection closed.')
-
-def salvarpessoa(nome, email, labelResult):
-    
-    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
-    
-    try:
-        if conn is not None:
-            print('Connection established to PostgreSQL.')
-            with conn.cursor() as cur:
-
-                ###################################################################################
-                ####### BUSCA NO BANCO INFORMAÇOES SE JÁ EXISTE USUARIO CADASTRADO ################
-                ###################################################################################
-                
-                if(checkEmail(email)==1):
-                        print("Cadastrando usuario")
-                        cur.execute("""
-                                    INSERT INTO PESSOA (nomeCompleto, email)
-                                    VALUES (%s, %s);
-                                    """,
-                                    (str(nome), str(email)))
-                        # conn.commit() # commit para atualizar o banco 
-                        return 1        
-                else:
-                    print("Email cadastrado")
- 
-                    return 0
-        else:
-            print('Connection not established to PostgreSQL.')
-            
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    
-    finally:
-        if conn is not None:
-            conn.close()
-            print('Finally, connection closed.')
-
-def ConsultaPessoa(nome, email, labelResult):
+def ConsultaComputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     try:
@@ -171,34 +348,17 @@ def ConsultaPessoa(nome, email, labelResult):
             print('Connection established to PostgreSQL.')
             with conn.cursor() as cur:
                 
-                if (nome=='' and email ==''):
+                if (tipo=='' and modelonot ==''):
                     cur.execute("""
-                                SELECT * FROM PESSOA
+                                SELECT * FROM COMPUTADOR
                                 """)
-                elif(nome!='' and email == ''):
-                    cur.execute("""
-                                SELECT * FROM PESSOA
-                                WHERE 1=1
-                                AND nomeCompleto LIKE '%s%%';
-                                """ % nome)
+                ### Terminar de colocar condições para consulta
 
-                elif(nome == '' and email != ''):
-                    cur.execute("""
-                                SELECT * FROM PESSOA
-                                WHERE 1=1
-                                AND email LIKE LOWER('%s%%');
-                                """ % (email))
-                else:
-                    cur.execute("""
-                                SELECT * FROM PESSOA
-                                WHERE 1=1
-                                AND nomeCompleto LIKE '%s%%'
-                                AND email LIKE LOWER('%s%%')
-                                """ % (nome, email))
+
                         # conn.commit() # commit para atualizar o banco 
-                pessoas = cur.fetchall()
+                computadores = cur.fetchall()
 
-                return pessoas
+                return computadores
         else:
             print('Connection not established to PostgreSQL.')
             
@@ -209,7 +369,6 @@ def ConsultaPessoa(nome, email, labelResult):
         if conn is not None:
             conn.close()
             print('Finally, connection closed.')
-   
 
 
 def checkEmail(email):
