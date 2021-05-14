@@ -1,6 +1,6 @@
 import setor, pessoa, computador, empresa
 import tkinter as tk
-from tkinter import Label, Menu
+from tkinter import ttk, Label, Button, Entry, Menu, Toplevel
 
 def clickedpessoa():
     return pessoa.CadastroPessoa()
@@ -75,9 +75,11 @@ def BotaoConsulta(menu):
 if __name__ == "__main__":
 
     main = tk.Tk()
+    style = ttk.Style(main)
+    style.theme_use('clam')
     main.geometry('800x600')
     main.title("SistemaInventário")
-    lbl = Label(main, text="Seja bem vindo")
+    lbl = ttk.Label(main, text='Seja bem vindo', font='courier 15')
     lbl.grid(column=0, row=0)
 
     menubar = Menu(main)
