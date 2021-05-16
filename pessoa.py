@@ -1,6 +1,7 @@
+from tkinter.constants import BOTH, END, LEFT, RIGHT, Y
 from Testes.teste import popup_showinfo
 import tkinter as tk
-from tkinter import *
+from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox
 from functools import partial
 import banco
 import time
@@ -41,16 +42,17 @@ from tkinter.messagebox import showinfo
 
 def CadastroPessoa():
     Pessoa = tk.Tk()
-    
+    style = ttk.Style(Pessoa)
+    style.theme_use('clam')
     Pessoa.geometry('400x300')
     Pessoa.title("Cadastro de Pessoas")
-    lblNomePessoa = Label(Pessoa, text='Nome:')
+    lblNomePessoa = ttk.Label(Pessoa, text='Nome:')
     lblNomePessoa.grid(column=0, row=1)
-    txtNomePessoa = Entry(Pessoa, width=50)
+    txtNomePessoa = ttk.Entry(Pessoa, width=50)
     txtNomePessoa.grid(column=1, row=1)
-    lblEmail = Label(Pessoa, text='E-mail:')
+    lblEmail = ttk.Label(Pessoa, text='E-mail:')
     lblEmail.grid(column=0, row=3)
-    txtEmail = Entry(Pessoa, width=50)
+    txtEmail = ttk.Entry(Pessoa, width=50)
     txtEmail.grid(column=1, row=3)
     '''
 	nomeCompleto VARCHAR(70) - ja tem
@@ -62,10 +64,10 @@ def CadastroPessoa():
 
     '''
     
-    labelResult = tk.Label(Pessoa)  
+    labelResult = ttk.Label(Pessoa)  
     labelResult.grid(row=7, column=1) 
 
-    btnIncluir = Button(Pessoa, text='Incluir', command = partial(FuncaoButtonCadastro, txtNomePessoa, txtEmail,labelResult))
+    btnIncluir = ttk.Button(Pessoa, text='Incluir', command = partial(FuncaoButtonCadastro, txtNomePessoa, txtEmail,labelResult))
     btnIncluir.grid(column=1, row=6)
 
 
@@ -90,14 +92,14 @@ def ConsultaPessoa():
     
 
 
-    lblNomePessoa = Label(Pessoa, text='Nome:')
+    lblNomePessoa = ttk.Label(Pessoa, text='Nome:')
     lblNomePessoa.grid(column=0, row=1)
-    txtNomePessoa = Entry(Pessoa, width=50)
+    txtNomePessoa = ttk.Entry(Pessoa, width=50)
     txtNomePessoa.grid(column=1, row=1)
     
-    lblEmail = Label(Pessoa, text='E-mail:')
+    lblEmail = ttk.Label(Pessoa, text='E-mail:')
     lblEmail.grid(column=0, row=3)
-    txtEmail = Entry(Pessoa, width=50)
+    txtEmail = ttk.Entry(Pessoa, width=50)
     txtEmail.grid(column=1, row=3)
     
     '''
@@ -110,10 +112,10 @@ def ConsultaPessoa():
 
     '''
     
-    labelResult = tk.Label(Pessoa)  
+    labelResult = ttk.Label(Pessoa)  
     labelResult.grid(row=7, column=1) 
 
-    btnIncluir = Button(Pessoa, text='Consultar', command = partial(FuncaoButtonConsulta, 
+    btnIncluir = ttk.Button(Pessoa, text='Consultar', command = partial(FuncaoButtonConsulta, 
                                                                   txtNomePessoa, 
                                                                   txtEmail, labelResult))
     btnIncluir.grid(column=1, row=6)
@@ -160,6 +162,8 @@ def FuncaoButtonConsulta(nome, email, labelResult):
     #colunas = getColumnName()
     if pessoas != None:
         root = tk.Tk()
+        style = ttk.Style(root)
+        style.theme_use('clam')
         root.geometry('400x300')
         root.title("Lista de Pessoas")
         

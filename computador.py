@@ -1,6 +1,7 @@
+from tkinter.constants import BOTH, END, LEFT, RIGHT, Y
 import banco
 import tkinter as tk
-from tkinter import *
+from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox
 from functools import partial
 
 
@@ -29,72 +30,74 @@ from functools import partial
 def CadastroComputador():
 
     computador = tk.Tk()
+    style = ttk.Style(computador)
+    style.theme_use('clam')
     computador.geometry('400x300')
     computador.title("Cadastro de Computador")
     row = 0
-    lblTipoComputador = Label(computador, text='Tipo:')
+    lblTipoComputador = ttk.Label(computador, text='Tipo:')
     lblTipoComputador.grid(column=0, row=row)
-    txtTipoComputador = Entry(computador, width=50)
+    txtTipoComputador = ttk.Entry(computador, width=50)
     txtTipoComputador.grid(column=1, row=row)
     row += 1
 
-    lblModeloMB = Label(computador, text='Modelo MB:')
+    lblModeloMB = ttk.Label(computador, text='Modelo MB:')
     lblModeloMB.grid(column=0, row=row)
-    txtModeloMB = Entry(computador, width=50)
+    txtModeloMB = ttk.Entry(computador, width=50)
     txtModeloMB.grid(column=1, row=row)
     row += 1
 
-    lblNumeroSerie = Label(computador, text='numero de serie:')
+    lblNumeroSerie = ttk.Label(computador, text='numero de serie:')
     lblNumeroSerie.grid(column=0, row=row)
-    txtNumeroSerie = Entry(computador, width=50)
+    txtNumeroSerie = ttk.Entry(computador, width=50)
     txtNumeroSerie.grid(column=1, row=row)
     row += 1
 
-    lblModeloNotebook = Label(computador, text='Modelo Notebook:')
+    lblModeloNotebook = ttk.Label(computador, text='Modelo Notebook:')
     lblModeloNotebook.grid(column=0, row=row)
-    txtModeloNotebook = Entry(computador, width=50)
+    txtModeloNotebook = ttk.Entry(computador, width=50)
     txtModeloNotebook.grid(column=1, row=row)
     row += 1
 
-    lblModeloChipset = Label(computador, text='Modelo Chipset:')
+    lblModeloChipset = ttk.Label(computador, text='Modelo Chipset:')
     lblModeloChipset.grid(column=0, row=row)
-    txtModeloChipset = Entry(computador, width=50)
+    txtModeloChipset = ttk.Entry(computador, width=50)
     txtModeloChipset.grid(column=1, row=row)
     row += 1
 
-    lblProcessador = Label(computador, text='Processador:')
+    lblProcessador = ttk.Label(computador, text='Processador:')
     lblProcessador.grid(column=0, row=row)
-    txtProcessador = Entry(computador, width=50)
+    txtProcessador = ttk.Entry(computador, width=50)
     txtProcessador.grid(column=1, row=row)
     row += 1
 
-    lblRam = Label(computador, text='Ram:')
+    lblRam = ttk.Label(computador, text='Ram:')
     lblRam.grid(column=0, row=row)
-    txtRam = Entry(computador, width=50)
+    txtRam = ttk.Entry(computador, width=50)
     txtRam.grid(column=1, row=row)
     row += 1
 
-    lblRom = Label(computador, text='Rom:')
+    lblRom = ttk.Label(computador, text='Rom:')
     lblRom.grid(column=0, row=row)
-    txtRom = Entry(computador, width=50)
+    txtRom = ttk.Entry(computador, width=50)
     txtRom.grid(column=1, row=row)
     row += 1
 
-    lblCodigoSetor = Label(computador, text='Código do Setor:')
+    lblCodigoSetor = ttk.Label(computador, text='Código do Setor:')
     lblCodigoSetor.grid(column=0, row=row)
-    txtCodigoSetor = Entry(computador, width=50)
+    txtCodigoSetor = ttk.Entry(computador, width=50)
     txtCodigoSetor.grid(column=1, row=row)
     row += 1
 
-    lblmacETH = Label(computador, text='macETH:')
+    lblmacETH = ttk.Label(computador, text='macETH:')
     lblmacETH.grid(column=0,row=row)
-    txtmacETH = Entry(computador,width=50)
+    txtmacETH = ttk.Entry(computador,width=50)
     txtmacETH.grid(column=1,row=row)
     row += 1
 
-    lblmacWLAN = Label(computador, text='macWLAN:')
+    lblmacWLAN = ttk.Label(computador, text='macWLAN:')
     lblmacWLAN.grid(column=0,row=row)
-    txtmacWLAN = Entry(computador,width=50)
+    txtmacWLAN = ttk.Entry(computador,width=50)
     txtmacWLAN.grid(column=1,row=row)
     row += 1
 
@@ -112,11 +115,11 @@ def CadastroComputador():
 	codSetor INTEGER, - lista de setores disponiveis ? 
     '''
     
-    labelResult = tk.Label(computador)  
+    labelResult = ttk.Label(computador)  
     labelResult.grid(row=row, column=1) 
     row += 1
 
-    btnIncluir = Button(computador, text='Incluir', 
+    btnIncluir = ttk.Button(computador, text='Incluir', 
                         command=partial(FuncaoButtonCadastro,
                                         txtmacETH,
                                         txtmacWLAN,
@@ -141,72 +144,74 @@ def CadastroComputador():
 def ConsultaComputador():
 
     computador = tk.Tk()
+    style = ttk.Style(computador)
+    style.theme_use('clam')
     computador.geometry('400x300')
     computador.title("Cadastro de Computador")
     row = 0
-    lblTipoComputador = Label(computador, text='Tipo:')
+    lblTipoComputador = ttk.Label(computador, text='Tipo:')
     lblTipoComputador.grid(column=0, row=row)
-    txtTipoComputador = Entry(computador, width=50)
+    txtTipoComputador = ttk.Entry(computador, width=50)
     txtTipoComputador.grid(column=1, row=row)
     row += 1
 
-    lblModeloMB = Label(computador, text='Modelo MB:')
+    lblModeloMB = ttk.Label(computador, text='Modelo MB:')
     lblModeloMB.grid(column=0, row=row)
-    txtModeloMB = Entry(computador, width=50)
+    txtModeloMB = ttk.Entry(computador, width=50)
     txtModeloMB.grid(column=1, row=row)
     row += 1
 
-    lblNumeroSerie = Label(computador, text='numero de serie:')
+    lblNumeroSerie = ttk.Label(computador, text='numero de serie:')
     lblNumeroSerie.grid(column=0, row=row)
-    txtNumeroSerie = Entry(computador, width=50)
+    txtNumeroSerie = ttk.Entry(computador, width=50)
     txtNumeroSerie.grid(column=1, row=row)
     row += 1
 
-    lblModeloNotebook = Label(computador, text='Modelo Notebook:')
+    lblModeloNotebook = ttk.Label(computador, text='Modelo Notebook:')
     lblModeloNotebook.grid(column=0, row=row)
-    txtModeloNotebook = Entry(computador, width=50)
+    txtModeloNotebook = ttk.Entry(computador, width=50)
     txtModeloNotebook.grid(column=1, row=row)
     row += 1
 
-    lblModeloChipset = Label(computador, text='Modelo Chipset:')
+    lblModeloChipset = ttk.Label(computador, text='Modelo Chipset:')
     lblModeloChipset.grid(column=0, row=row)
-    txtModeloChipset = Entry(computador, width=50)
+    txtModeloChipset = ttk.Entry(computador, width=50)
     txtModeloChipset.grid(column=1, row=row)
     row += 1
 
-    lblProcessador = Label(computador, text='Processador:')
+    lblProcessador = ttk.Label(computador, text='Processador:')
     lblProcessador.grid(column=0, row=row)
-    txtProcessador = Entry(computador, width=50)
+    txtProcessador = ttk.Entry(computador, width=50)
     txtProcessador.grid(column=1, row=row)
     row += 1
 
-    lblRam = Label(computador, text='Ram:')
+    lblRam = ttk.Label(computador, text='Ram:')
     lblRam.grid(column=0, row=row)
-    txtRam = Entry(computador, width=50)
+    txtRam = ttk.Entry(computador, width=50)
     txtRam.grid(column=1, row=row)
     row += 1
 
-    lblRom = Label(computador, text='Rom:')
+    lblRom = ttk.Label(computador, text='Rom:')
     lblRom.grid(column=0, row=row)
-    txtRom = Entry(computador, width=50)
+    txtRom = ttk.Entry(computador, width=50)
     txtRom.grid(column=1, row=row)
     row += 1
 
-    lblCodigoSetor = Label(computador, text='Código do Setor:')
+    lblCodigoSetor = ttk.Label(computador, text='Código do Setor:')
     lblCodigoSetor.grid(column=0, row=row)
-    txtCodigoSetor = Entry(computador, width=50)
+    txtCodigoSetor = ttk.Entry(computador, width=50)
     txtCodigoSetor.grid(column=1, row=row)
     row += 1
 
-    lblmacETH = Label(computador, text='macETH:')
+    lblmacETH = ttk.Label(computador, text='macETH:')
     lblmacETH.grid(column=0,row=row)
-    txtmacETH = Entry(computador,width=50)
+    txtmacETH = ttk.Entry(computador,width=50)
     txtmacETH.grid(column=1,row=row)
     row += 1
 
-    lblmacWLAN = Label(computador, text='macWLAN:')
+    lblmacWLAN = ttk.Label(computador, text='macWLAN:')
     lblmacWLAN.grid(column=0,row=row)
-    txtmacWLAN = Entry(computador,width=50)
+    txtmacWLAN = ttk.Entry(computador,width=50)
     txtmacWLAN.grid(column=1,row=row)
     row += 1
 
@@ -224,8 +229,8 @@ def ConsultaComputador():
 	codSetor INTEGER, - lista de setores disponiveis ? 
     '''
 
-    labelResult = tk.Label(computador) 
-    btnIncluir = Button(computador, text='Consultar', 
+    labelResult = ttk.Label(computador) 
+    btnIncluir = ttk.Button(computador, text='Consultar', 
                         command=partial(FuncaoButtonConsulta,
                                         txtmacETH,
                                         txtmacWLAN,
@@ -286,13 +291,15 @@ def FuncaoButtonConsulta(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, m
     computadores = banco.ConsultaComputador(macETH.get(), macWLAN.get(), tipo.get(), modeloMB.get(), numserie.get(), modelonot.get(), modelochipset.get(), processador.get(), ram.get(), rom.get(), labelResult)
     if computadores != None:
         root = tk.Tk()
+        style = ttk.Style(root)
+        style.theme_use('clam')
         root.geometry('400x300')
         root.title("Lista de computadores")
 
-        scrollbar = Scrollbar(root)
+        scrollbar = ttk.Scrollbar(root)
         scrollbar.pack(side = RIGHT, fill=Y)
         
-        ListaComputadores = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        ListaComputadores = ttk.Listbox(root, yscrollcommand = scrollbar.set, width = 60)
         for linha in range(0,len(computadores)):
             ListaComputadores.insert(END, computadores[linha])            
         

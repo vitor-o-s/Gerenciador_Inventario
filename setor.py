@@ -1,6 +1,7 @@
+from tkinter.constants import BOTH, END, LEFT, RIGHT, Y
 import banco
 import tkinter as tk
-from tkinter import *
+from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox
 from functools import partial
 
 
@@ -30,26 +31,28 @@ from functools import partial
 def CadastroSetor():
 
     Setor = tk.Tk()
+    style = ttk.Style(Setor)
+    style.theme_use('clam')
     Setor.geometry('400x300')
     Setor.title('Cadastro de Setores')
-    lblCodigo = Label(Setor, text='Codigo do setor:')
+    lblCodigo = ttk.Label(Setor, text='Codigo do setor:')
     lblCodigo.grid(column=0, row=0)
-    txtCodigo = Entry(Setor, width=10)
+    txtCodigo = ttk.Entry(Setor, width=10)
     txtCodigo.grid(column=1, row=0)
-    lblNomeSetor = Label(Setor, text='Setor:')
+    lblNomeSetor = ttk.Label(Setor, text='Setor:')
     lblNomeSetor.grid(column=0, row=1)
-    txtNomeSetor = Entry(Setor, width=30)
+    txtNomeSetor = ttk.Entry(Setor, width=30)
     txtNomeSetor.grid(column=1, row=1)
-    lblCodigoCoordenador = Label(Setor, text='Código Coordenador:')
+    lblCodigoCoordenador = ttk.Label(Setor, text='Código Coordenador:')
     lblCodigoCoordenador.grid(column=0, row=2)
-    txtCodigoCoordenador = Entry(Setor, width=10)
+    txtCodigoCoordenador = ttk.Entry(Setor, width=10)
     txtCodigoCoordenador.grid(column=1, row=2)
 
 
-    labelResult = tk.Label(Setor)  
+    labelResult = ttk.Label(Setor)  
     labelResult.grid(row=4, column=1) 
 
-    btnIncluir = Button(Setor, text='Incluir', command = partial(FuncaoButtonCadastro, 
+    btnIncluir = ttk.Button(Setor, text='Incluir', command = partial(FuncaoButtonCadastro, 
                                                                  txtCodigo, 
                                                                  txtNomeSetor, 
                                                                  txtCodigoCoordenador, labelResult))
@@ -63,28 +66,30 @@ def CadastroSetor():
 # Ajeitar
 def ConsultaSetor():
     Setor = tk.Tk()
+    style = ttk.Style(Setor)
+    style.theme_use('clam')
     Setor.geometry('400x300')
 
     Setor.title('Consulte Setores')
-    lblCodigo = Label(Setor, text='Codigo do setor:')
+    lblCodigo = ttk.Label(Setor, text='Codigo do setor:')
     lblCodigo.grid(column=0, row=0)
-    txtCodigo = Entry(Setor, width=10)
+    txtCodigo = ttk.Entry(Setor, width=10)
     txtCodigo.grid(column=1, row=0)
     
-    lblNomeSetor = Label(Setor, text='Setor:')
+    lblNomeSetor = ttk.Label(Setor, text='Setor:')
     lblNomeSetor.grid(column=0, row=1)
-    txtNomeSetor = Entry(Setor, width=30)
+    txtNomeSetor = ttk.Entry(Setor, width=30)
     txtNomeSetor.grid(column=1, row=1)
     
-    lblCodigoCoordenador = Label(Setor, text='Código Coordenador:')
+    lblCodigoCoordenador = ttk.Label(Setor, text='Código Coordenador:')
     lblCodigoCoordenador.grid(column=0, row=2)
-    txtCodigoCoordenador = Entry(Setor, width=10)
+    txtCodigoCoordenador = ttk.Entry(Setor, width=10)
     txtCodigoCoordenador.grid(column=1, row=2)
 
-    labelResult = tk.Label(Setor)  
+    labelResult = ttk.Label(Setor)  
     labelResult.grid(row=4, column=1) 
 
-    btnIncluir = Button(Setor, text='Consultar', command = partial(FuncaoButtonConsulta, txtCodigo, txtNomeSetor,txtCodigoCoordenador, labelResult))
+    btnIncluir = ttk.Button(Setor, text='Consultar', command = partial(FuncaoButtonConsulta, txtCodigo, txtNomeSetor,txtCodigoCoordenador, labelResult))
     btnIncluir.grid(column=1, row=3)
 
 
@@ -118,15 +123,17 @@ def FuncaoButtonConsulta(codigoSetor, setor, codcoord, labelResult):
 
     if setores != None:
         root = tk.Tk()
+        style = ttk.Style(root)
+        style.theme_use('clam')
         root.geometry('400x300')
         root.title("Lista de Setores")
         
 
 
-        scrollbar = Scrollbar(root)
+        scrollbar = ttk.Scrollbar(root)
         scrollbar.pack(side = RIGHT, fill=Y)
         
-        ListaSetor = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        ListaSetor = ttk.Listbox(root, yscrollcommand = scrollbar.set, width = 60)
         for linha in range(0,len(setores)):
             ListaSetor.insert(END, setores[linha])            
         

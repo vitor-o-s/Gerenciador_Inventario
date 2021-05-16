@@ -1,6 +1,7 @@
+from tkinter.constants import BOTH, END, LEFT, RIGHT, Y
 import banco
 import tkinter as tk
-from tkinter import *
+from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox
 from functools import partial
 
 
@@ -25,34 +26,36 @@ from functools import partial
 
 def CadastroEmpresa():
     Empresa = tk.Tk()
+    style = ttk.Style(Empresa)
+    style.theme_use('clam')
     Empresa.geometry('400x300')
     Empresa.title("Cadastro de Empresa")
     
-    lblCodigo = Label(Empresa, text='Código:')
+    lblCodigo = ttk.Label(Empresa, text='Código:')
     lblCodigo.grid(column=0, row=0)
-    txtCodigo = Entry(Empresa, width=10)
+    txtCodigo = ttk.Entry(Empresa, width=10)
     txtCodigo.grid(column=1, row=0)
     
-    lblNomeEmpresa = Label(Empresa, text='Nome da Empresa:')
+    lblNomeEmpresa = ttk.Label(Empresa, text='Nome da Empresa:')
     lblNomeEmpresa.grid(column=0, row=1)
-    txtNomeEmpresa = Entry(Empresa, width=50)
+    txtNomeEmpresa = ttk.Entry(Empresa, width=50)
     txtNomeEmpresa.grid(column=1, row=1)
     
-    lblTelefone = Label(Empresa, text='Telefone:')
+    lblTelefone = ttk.Label(Empresa, text='Telefone:')
     lblTelefone.grid(column=0, row=2)
-    txtTelefone = Entry(Empresa, width=50)
+    txtTelefone = ttk.Entry(Empresa, width=50)
     txtTelefone.grid(column=1, row=2)
     
-    lblCodResponsavel = Label(Empresa, text='codigo do responsavel:')
+    lblCodResponsavel = ttk.Label(Empresa, text='codigo do responsavel:')
     lblCodResponsavel.grid(column=0, row=3)
-    txtCodResponsavel = Entry(Empresa, width=50)
+    txtCodResponsavel = ttk.Entry(Empresa, width=50)
     txtCodResponsavel.grid(column=1, row=3)
 
 
     labelResult = tk.Label(Empresa)  
     labelResult.grid(row=7, column=2) 
 
-    btnIncluir = Button(Empresa, text='Incluir',
+    btnIncluir = ttk.Button(Empresa, text='Incluir',
                          command=partial(FuncaoButtonCadastro,
                                          txtCodigo, 
                                          txtNomeEmpresa, 
@@ -68,33 +71,35 @@ def CadastroEmpresa():
 
 def ConsultaEmpresa():
     Empresa = tk.Tk()
+    style = ttk.Style(Empresa)
+    style.theme_use('clam')
     Empresa.geometry('400x300')
     Empresa.title("Consulta de Empresa")
     
-    lblCodigo = Label(Empresa, text='Código:')
+    lblCodigo = ttk.Label(Empresa, text='Código:')
     lblCodigo.grid(column=0, row=0)
-    txtCodigo = Entry(Empresa, width=10)
+    txtCodigo = ttk.Entry(Empresa, width=10)
     txtCodigo.grid(column=1, row=0)
     
-    lblNomeEmpresa = Label(Empresa, text='Nome da Empresa:')
+    lblNomeEmpresa = ttk.Label(Empresa, text='Nome da Empresa:')
     lblNomeEmpresa.grid(column=0, row=1)
-    txtNomeEmpresa = Entry(Empresa, width=50)
+    txtNomeEmpresa = ttk.Entry(Empresa, width=50)
     txtNomeEmpresa.grid(column=1, row=1)
     
-    lblTelefone = Label(Empresa, text='Telefone:')
+    lblTelefone = ttk.Label(Empresa, text='Telefone:')
     lblTelefone.grid(column=0, row=2)
-    txtTelefone = Entry(Empresa, width=50)
+    txtTelefone = ttk.Entry(Empresa, width=50)
     txtTelefone.grid(column=1, row=2)
     
-    lblCodResponsavel = Label(Empresa, text='codigo do responsavel:')
+    lblCodResponsavel = ttk.Label(Empresa, text='codigo do responsavel:')
     lblCodResponsavel.grid(column=0, row=3)
-    txtCodResponsavel = Entry(Empresa, width=50)
+    txtCodResponsavel = ttk.Entry(Empresa, width=50)
     txtCodResponsavel.grid(column=1, row=3)
 
 
     labelResult = tk.Label(Empresa)  
 
-    btnIncluir = Button(Empresa, text='Consultar',
+    btnIncluir = ttk.Button(Empresa, text='Consultar',
                          command=partial(FuncaoButtonConsulta,
                                          txtCodigo, 
                                          txtNomeEmpresa, 
@@ -142,13 +147,15 @@ def FuncaoButtonConsulta(codigo, nomeempresa, tel, codresp, labelResult):
     
     if empresas != None:
         root = tk.Tk()
+        style = ttk.Style(root)
+        style.theme_use('clam')
         root.geometry('400x300')
         root.title("Lista de Empresas")
 
-        scrollbar = Scrollbar(root)
+        scrollbar = ttk.Scrollbar(root)
         scrollbar.pack(side = RIGHT, fill=Y)
         
-        ListaEmpresa = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        ListaEmpresa = ttk.Listbox(root, yscrollcommand = scrollbar.set, width = 60)
         for linha in range(0,len(empresas)):
             ListaEmpresa.insert(END, empresas[linha])            
         
