@@ -1,8 +1,12 @@
+from Testes.teste import popup_showinfo
 import tkinter as tk
 from tkinter import *
 from functools import partial
 import banco
 import time
+from tkinter.messagebox import showinfo
+
+
 #import TkTreectrl as treectrl
 
 ''' MÉTODOS IMPLEMENTADOS:
@@ -124,17 +128,21 @@ def ConsultaPessoa():
 def FuncaoButtonCadastro(nome, email,labelResult):
 
     if checkfill(nome,email):
-        labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
+        showinfo("Campo Vazio", "Os campos não foram preenchidos corretamente")
+        # labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
     else:
         if mask(email.get())==1:
             resultado = banco.salvarpessoa(nome.get(), email.get(), labelResult)
             if resultado == 1:
-                labelResult.config(text="Usuario cadastrado com sucesso")
+                showinfo("Cadastro Sucesso", "Usuario cadastrado com sucesso")
+                # labelResult.config(text="Usuario cadastrado com sucesso")
             elif resultado == 0:
-                labelResult.config(text="Usuário já existe na tabela")
+                showinfo("Erro 1", "Usuario já existe na tabela")
+                # labelResult.config(text="Usuário já existe na tabela")
         else:
-            labelResult.config(text="Dominio email invalido")
+            showinfo("Erro 2", "Dominio email inválido")
+            # labelResult.config(text="Dominio email invalido")
             return 
 
 
@@ -146,6 +154,7 @@ def FuncaoButtonCadastro(nome, email,labelResult):
 
 
 def FuncaoButtonConsulta(nome, email, labelResult):
+
     pessoas = banco.ConsultaPessoa(nome.get(), email.get(), labelResult)
 
     #colunas = getColumnName()
@@ -164,8 +173,7 @@ def FuncaoButtonConsulta(nome, email, labelResult):
 
 
         scrollbar = Scrollbar(root)
-        scrollbar.pack(side = RIGHT, fill=Y)
-        
+        scrollbar.pack(side = RIGHT, fill=Y)    
         ListaPessoa = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
         for linha in range(0,len(pessoas)):
             ListaPessoa.insert(END, pessoas[linha])            
@@ -175,7 +183,8 @@ def FuncaoButtonConsulta(nome, email, labelResult):
         
         labelResult.config(text= "resultado encontrado")
     else:
-        labelResult.config(text= "resultado não encontrado")
+        showinfo("Window", "resultado não encontrado")
+        # labelResult.config(text= "resultado não encontrado")
 
 
     ## RETORNA COLUNAS DA TABELA (TODAS)
@@ -192,7 +201,7 @@ def getColumnName():
 
 
 def checkfill(nome, email):
-
+    
     return nome.get()=='' or email.get()=='' 
 
 def mask(s):

@@ -48,7 +48,7 @@ def salvarpessoa(nome, email, labelResult):
                                     VALUES (%s, %s);
                                     """,
                                     (str(nome), str(email)))
-                        # conn.commit() # commit para atualizar o banco 
+                        conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
                     print("Email cadastrado")
@@ -162,11 +162,9 @@ def salvarsetor(codigo, setor, codcoord, labelResult):
                         # conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
-                    print("Computador cadastrado")
- 
+                    print("Setor esta cadastrado no sistema") 
                     return 0
-            
-            
+
         else:
             print('Connection not established to PostgreSQL.')
             
@@ -394,17 +392,29 @@ def checkSetor(setor):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     cur2 = conn.cursor()
-    cur2.execute("""
-            SELECT nomeSetor
-            FROM SETOR
-            WHERE 1=1 
-            AND nomeSetor =  '"""+str(setor)+"""'   
-            """)
+    # cur2.execute("""
+    #         SELECT nomeSetor
+    #         FROM SETOR
+    #         WHERE 1=1 
+    #         AND nomeSetor LIKE LOWER('%s%%')   
+    #         """ % (setor))
+    cur2.execute(""" 
+                SELECT *
+                FROM INFORMATION_SCHEMA.COLUMNS
+                WHERE TABLE_NAME = 'setor'
+                """)
+    # cur2.execute("""
+    #         SELECT nomeSetor
+    #         FROM SETOR
+    #         WHERE 1=1 
+    #         AND nomeSetor  
+    #         """)
+    print(cur2.fetchall())
+
     if cur2.fetchall() == []:
         cur2.close()
         return 1
     else:
-        # print("Existe usuario cadastrado com este e-mail")
         cur2.close()
         return -1
 
