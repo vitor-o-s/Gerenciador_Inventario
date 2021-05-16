@@ -153,7 +153,7 @@ def salvarsetor(codigo, setor, codcoord, labelResult):
             with conn.cursor() as cur:
                 
                 if(checkSetor(setor)==1):
-                        print("Cadastrando Computador")
+                        print("Cadastrando Setor")
                         cur.execute("""
                                     INSERT INTO SETOR (codEmpresa, codCoordenador, nomeSetor)
                                     VALUES (%s, %s);
@@ -221,18 +221,20 @@ def salvarempresa(codigo, nomeempresa, tel, codresp, labelResult):
         if conn is not None:
             print('Connection established to PostgreSQL.')
             with conn.cursor() as cur:
-                
-                if(checkEmpresa(nomeempresa)==1):
-                        print("Cadastrando Computador")
+                if(checkEmpresaCodigo(codigo)==1):
+                    if(checkEmpresaNome(nomeempresa)==1):
+                        print("Cadastrando empresa")
                         cur.execute("""
                                     INSERT INTO EMPRESA (codEmpresa, nomeEmpresa, telefone)
                                     VALUES (%s, %s, %s);
                                     """,
                                     (str(codigo), str(nomeempresa), str(tel)))
-                        # conn.commit() # commit para atualizar o banco 
+                        conn.commit() # commit para atualizar o banco 
                         return 1        
+                    else:
+                        print("Nome empresa existente")
                 else:
-                    print("Computador cadastrado")
+                    print("Codigo empresa existente")
  
                     return 0
             
@@ -263,7 +265,6 @@ def ConsultaEmpresa(codigo, nomeempresa, tel, codresp, labelResult):
                 ### Terminar de colocar condições para consulta
 
 
-                        # conn.commit() # commit para atualizar o banco 
                 empresas = cur.fetchall()
 
                 return empresas
@@ -419,15 +420,31 @@ def checkSetor(setor):
         return -1
 
 #Testar
-def checkEmpresa(empresa):
+def checkEmpresaCodigo(codigo):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    cur2 = conn.cursor()
+    cur2.execute("""
+            SELECT *
+            FROM EMPRESA
+            WHERE 1=1 
+            AND codEmpresa  =  '"""+str(codigo)+"""'   
+            """)
+    if cur2.fetchall() == []:
+        cur2.close()
+        return 1
+    else:
+        # print("Existe usuario cadastrado com este e-mail")
+        cur2.close()
+        return -1
 
+def checkEmpresaNome(nomeempresa):
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     cur2 = conn.cursor()
     cur2.execute("""
             SELECT nomeEmpresa
             FROM EMPRESA
             WHERE 1=1 
-            AND nomeEmpresa =  '"""+str(empresa)+"""'   
+            AND nomeEmpresa  =  '"""+str(nomeempresa)+"""'   
             """)
     if cur2.fetchall() == []:
         cur2.close()

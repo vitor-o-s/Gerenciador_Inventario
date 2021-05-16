@@ -28,7 +28,7 @@ def CadastroEmpresa():
     Empresa = tk.Tk()
     style = ttk.Style(Empresa)
     style.theme_use('clam')
-    Empresa.geometry('400x300')
+    Empresa.geometry('800x600')
     Empresa.title("Cadastro de Empresa")
     
     lblCodigo = ttk.Label(Empresa, text='Código:')
@@ -56,7 +56,7 @@ def CadastroEmpresa():
     labelResult.grid(row=7, column=2) 
 
     btnIncluir = ttk.Button(Empresa, text='Incluir',
-                         command=partial(FuncaoButtonCadastro,
+                            command=partial(FuncaoButtonCadastro,
                                          txtCodigo, 
                                          txtNomeEmpresa, 
                                          txtTelefone, 
@@ -73,7 +73,7 @@ def ConsultaEmpresa():
     Empresa = tk.Tk()
     style = ttk.Style(Empresa)
     style.theme_use('clam')
-    Empresa.geometry('400x300')
+    Empresa.geometry('800x600')
     Empresa.title("Consulta de Empresa")
     
     lblCodigo = ttk.Label(Empresa, text='Código:')
@@ -116,10 +116,8 @@ def ConsultaEmpresa():
 
 
 def FuncaoButtonCadastro(codigo, nomeempresa, tel, codresp, labelResult):
-
     if checkfill(codigo, nomeempresa, tel, codresp):
         labelResult.config(text="Um dos campos não foi preenchido. Favor verificar")
-
     else:
         if masktel(tel.get()):
             resultado = banco.salvarempresa(codigo.get(), 
@@ -149,13 +147,13 @@ def FuncaoButtonConsulta(codigo, nomeempresa, tel, codresp, labelResult):
         root = tk.Tk()
         style = ttk.Style(root)
         style.theme_use('clam')
-        root.geometry('400x300')
+        root.geometry('800x600')
         root.title("Lista de Empresas")
 
-        scrollbar = ttk.Scrollbar(root)
+        scrollbar = Scrollbar(root)
         scrollbar.pack(side = RIGHT, fill=Y)
         
-        ListaEmpresa = ttk.Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        ListaEmpresa = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
         for linha in range(0,len(empresas)):
             ListaEmpresa.insert(END, empresas[linha])            
         
@@ -169,8 +167,10 @@ def FuncaoButtonConsulta(codigo, nomeempresa, tel, codresp, labelResult):
 
 
 def checkfill(codigo, nomeempresa, tel, codresp):
-
-    return codigo.get()=='' or nomeempresa.get()=='' or tel.get()=='' or codresp.get==''
+    if codigo.get()=='' or nomeempresa.get()=='' or tel.get()=='' or codresp.get()=='':
+        return True
+    else:
+        return False
 
 def masktel(tel):
 
