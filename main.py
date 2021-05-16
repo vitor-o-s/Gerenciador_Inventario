@@ -1,6 +1,6 @@
 import setor, pessoa, computador, empresa
 import tkinter as tk
-from tkinter import Label, Menu
+from tkinter import *
 
 def clickedpessoa():
     return pessoa.CadastroPessoa()
@@ -13,6 +13,7 @@ def clickedempresa():
 
 def clickedcomputador():
     return computador.CadastroComputador()
+    
 
 def ConsultaPessoa():
     return pessoa.ConsultaPessoa()
@@ -36,13 +37,13 @@ def ConsultaComputador():
 def BotaoCadastro(menu):
     #Cria o botão de cadastro e inclui as opções 
     itemCadastro = Menu(menu)
-    itemCadastro.add_command(label='Empresa', command=clickedempresa)
-    itemCadastro.add_separator()
-    itemCadastro.add_command(label='Computador', command=clickedcomputador)
-    itemCadastro.add_separator()
     itemCadastro.add_command(label='Pessoa', command=clickedpessoa)
     itemCadastro.add_separator()
     itemCadastro.add_command(label='Setor', command=clickedsetor)
+    itemCadastro.add_separator()
+    itemCadastro.add_command(label='Empresa', command=clickedempresa)
+    itemCadastro.add_separator()
+    itemCadastro.add_command(label='Computador', command=clickedcomputador)
     itemCadastro.add_separator()
     itemCadastro.add_command(label='Sair', command=quit)
     return itemCadastro
@@ -55,14 +56,16 @@ def BotaoCadastro(menu):
 
 def BotaoConsulta(menu):
     itemConsulta = Menu(menu)
-    
+
+    itemConsulta.add_command(label='Pessoa', command=ConsultaPessoa)
+    itemConsulta.add_separator()    
+    itemConsulta.add_command(label='Setor', command=ConsultaSetor)
+
+    itemConsulta.add_separator()
     itemConsulta.add_command(label='Empresa', command=ConsultaEmpresa)
     itemConsulta.add_separator()
     itemConsulta.add_command(label='Computador', command=ConsultaComputador)
-    itemConsulta.add_separator()
-    itemConsulta.add_command(label='Pessoa', command=ConsultaPessoa)
-    itemConsulta.add_separator()
-    itemConsulta.add_command(label='Setor', command=ConsultaSetor)
+
 
     return itemConsulta 
 
