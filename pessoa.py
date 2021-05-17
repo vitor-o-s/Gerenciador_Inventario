@@ -41,7 +41,7 @@ def CadastroPessoa():
     labelResult = ttk.Label(Pessoa)  
     labelResult.grid(row=7, column=1) 
 
-    btnIncluir = ttk.Button(Pessoa, text='Incluir', command = partial(FuncaoButtonCadastro, txtNomePessoa, txtEmail,labelResult))
+    btnIncluir = ttk.Button(Pessoa, text='Incluir', command = partial(FuncaoButtonCadastro, txtNomePessoa, txtEmail, txtdatanascimento, txtSetor,labelResult))
     btnIncluir.grid(column=1, row=6)
 
 def ConsultaPessoa():
@@ -77,9 +77,9 @@ def ConsultaPessoa():
                                                                   txtEmail, labelResult))
     btnIncluir.grid(column=1, row=6)
 
-def FuncaoButtonCadastro(nome, email,labelResult):
+def FuncaoButtonCadastro(nome, email,labelResul, data, cod):
 
-    if checkfill(nome,email):
+    if checkfill(nome,email,data,cod):
         showinfo("Campo Vazio", "Os campos não foram preenchidos corretamente")
         # labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
