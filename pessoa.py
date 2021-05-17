@@ -9,34 +9,11 @@ from tkinter.messagebox import showinfo
 import pandas as pd
 from pandastable import Table
 
-
-#import TkTreectrl as treectrl
-
-''' MÉTODOS IMPLEMENTADOS:
-
-    - CadastroPessoa() #Tela Cadastro
-    - ConsultaPessoa() #Tela Consulta
-    - FuncaoButtonCadastro() #Botao tela Cadastro
-    - FuncaoButtonConsulta() #Botao tela Consulta
-    - checkfill() #Verifica se campos vazio
-    - mask() #Verifica se mascara email valida
-    - checkDomain() #Verifica se domínio email válido
+"""     
+LISTA DE CORREÇÃO
     
-
-
-'''
-
-"""     LISTA DE CORREÇÃO
-    
-    FUNCAO BOTAO CONSULTA:
-    - CRIAR UMA NOVA COLUNA "CARGO" PARA OS USUÁRIOS (Pode ser integer ou sting) 
-    
+FUNCAO BOTAO CONSULTA: CRIAR UMA NOVA COLUNA "CARGO" PARA OS USUÁRIOS (Pode ser integer ou sting) 
 """
-##############################################################################################################################
-
-########################################## CADASTRO PESSOA ###################################################################
-
-##############################################################################################################################
 
 def CadastroPessoa():
     Pessoa = tk.Tk()
@@ -52,15 +29,14 @@ def CadastroPessoa():
     lblEmail.grid(column=0, row=3)
     txtEmail = ttk.Entry(Pessoa, width=50)
     txtEmail.grid(column=1, row=3)
-    '''
-	nomeCompleto VARCHAR(70) - ja tem
-	dataNascimento date, - sem por enquanto
-	email VARCHAR(50), - ja tem 
-	codSetor INTEGER, - lista de setores disponiveis?
-	macETH MACADDR, - sem preenchimento aqui?
-	macWLAN MACADDR - sem preenchimento aqui?
-
-    '''
+    lbldatanascimento = ttk.Label(Pessoa, text='Data de Nascimento:')
+    lbldatanascimento.grid(column=0, row=5)
+    txtdatanascimento = ttk.Entry(Pessoa, width=50)
+    txtdatanascimento.grid(column=1, row=5)
+    lblSetor = ttk.Label(Pessoa, text='Setor:')
+    lblSetor.grid(column=0, row=7)
+    txtSetor = ttk.Entry(Pessoa, width=50)
+    txtSetor.grid(column=1, row=7)
     
     labelResult = ttk.Label(Pessoa)  
     labelResult.grid(row=7, column=1) 
@@ -68,20 +44,13 @@ def CadastroPessoa():
     btnIncluir = ttk.Button(Pessoa, text='Incluir', command = partial(FuncaoButtonCadastro, txtNomePessoa, txtEmail,labelResult))
     btnIncluir.grid(column=1, row=6)
 
-
-###############################################################################################################################
-
-###################################################### CONSULTA PESSOA ########################################################
-
-###############################################################################################################################
+def ConsultaPessoa():
 
     '''
     A função deve conseguir consultar pessoas pelo nome, pelo email ou pelos 2.
     * Caso não seja inserido nenhum informação e clicado no botão "Consultar" deve retornar a lista de todos.
     ** A consulta sem preenchumento dos parâmetros só deve ser permitido enquanto não haver muitos registros de pessoas no sistema
     '''
-
-def ConsultaPessoa():
 
     Pessoa = tk.Tk()
     
@@ -100,16 +69,6 @@ def ConsultaPessoa():
     txtEmail = ttk.Entry(Pessoa, width=50)
     txtEmail.grid(column=1, row=3)
     
-    '''
-	nomeCompleto VARCHAR(70) - ja tem
-	dataNascimento date, - sem por enquanto
-	email VARCHAR(50), - ja tem 
-	codSetor INTEGER, - lista de setores disponiveis?
-	macETH MACADDR, - sem preenchimento aqui?
-	macWLAN MACADDR - sem preenchimento aqui?
-
-    '''
-    
     labelResult = ttk.Label(Pessoa)  
     labelResult.grid(row=7, column=1) 
 
@@ -117,13 +76,6 @@ def ConsultaPessoa():
                                                                   txtNomePessoa, 
                                                                   txtEmail, labelResult))
     btnIncluir.grid(column=1, row=6)
-
-
-##############################################################################################################################
-##############
-########################################## BOTÃO DE CADASTRO #################################################################
-##############
-##############################################################################################################################
 
 def FuncaoButtonCadastro(nome, email,labelResult):
 
@@ -144,13 +96,6 @@ def FuncaoButtonCadastro(nome, email,labelResult):
             showinfo("Erro 2", "Dominio email inválido")
             # labelResult.config(text="Dominio email invalido")
             return 
-
-
-##############################################################################################################################
-##############
-########################################## BOTÃO DE CONSULTA #################################################################
-##############
-##############################################################################################################################
 
 
 def FuncaoButtonConsulta(nome, email, labelResult):
@@ -184,6 +129,7 @@ def FuncaoButtonConsulta(nome, email, labelResult):
 
 
     ## RETORNA COLUNAS DA TABELA (TODAS)
+
 def getColumnName():
     COLUMN_NAME = banco.QueryColumnPessoa()
     colunas_tabela = []
