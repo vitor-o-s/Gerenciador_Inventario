@@ -141,10 +141,9 @@ def getColumnName():
     else:
         return []
 
-
-def checkfill(nome, email):
+def checkfill(nome, email, data, cod):
     
-    return nome.get()=='' or email.get()=='' 
+    return nome.get()=='' or email.get()=='' or data.get()=='' or cod.get()==''
 
 def mask(s):
     lo = s.find('@')
