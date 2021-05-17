@@ -32,3 +32,6 @@ No arquivo está incluído as funcionalidades dos botões, criação dos botões
 
 # main.py
 ### Descrição:
+
+
+> # PRECISA INSTALAR O pandastable

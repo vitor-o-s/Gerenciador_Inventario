@@ -1,9 +1,10 @@
 from tkinter.constants import BOTH, END, LEFT, RIGHT, Y
 import banco
 import tkinter as tk
-from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox
+from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox,Frame
 from functools import partial
-
+import pandas as pd
+from pandastable import Table
 
 
 
@@ -16,10 +17,17 @@ from functools import partial
     - checkfill() #Verifica se campos vazio
 
 
+        TABELA 
+
+    codSetor SERIAL NOT NULL,
+	codCoordenador INTEGER, 
+	nomeSetor VARCHAR(20)
+
 '''
 
 """ LISTA CORREÇÃO:
 
+ -> Precisa ser inserido coluna "CARGO" na TABELA [Pessoa] para cadastrar um novo setor
 
 
 """
@@ -33,7 +41,7 @@ def CadastroSetor():
     Setor = tk.Tk()
     style = ttk.Style(Setor)
     style.theme_use('clam')
-    Setor.geometry('400x300')
+    Setor.geometry('800x600')
     Setor.title('Cadastro de Setores')
     lblCodigo = ttk.Label(Setor, text='Codigo do setor:')
     lblCodigo.grid(column=0, row=0)
@@ -68,7 +76,7 @@ def ConsultaSetor():
     Setor = tk.Tk()
     style = ttk.Style(Setor)
     style.theme_use('clam')
-    Setor.geometry('400x300')
+    Setor.geometry('800x600')
 
     Setor.title('Consulte Setores')
     lblCodigo = ttk.Label(Setor, text='Codigo do setor:')
@@ -121,26 +129,39 @@ def FuncaoButtonConsulta(codigoSetor, setor, codcoord, labelResult):
 
     setores = banco.ConsultaSetor(codigoSetor.get(), setor.get(), codcoord.get(), labelResult)
 
+    colunas = getColumnName()
+
+    listaSetores = []
+    print(setores)
+    for i in range(0,len(setores)):
+        listaSetores.append(list(setores[i]))
+
+    df = pd.DataFrame(listaSetores, columns=colunas)
+
     if setores != None:
         root = tk.Tk()
         style = ttk.Style(root)
         style.theme_use('clam')
-        root.geometry('400x300')
+        root.geometry('800x600')
         root.title("Lista de Setores")
         
 
+        f = Frame(root)
+        f.pack(fill=BOTH,expand=1)
+        pt = Table(f, dataframe=df)
+        pt.show()
 
-        scrollbar = ttk.Scrollbar(root)
-        scrollbar.pack(side = RIGHT, fill=Y)
+        # scrollbar = ttk.Scrollbar(root)
+        # scrollbar.pack(side = RIGHT, fill=Y)
         
-        ListaSetor = ttk.Listbox(root, yscrollcommand = scrollbar.set, width = 60)
-        for linha in range(0,len(setores)):
-            ListaSetor.insert(END, setores[linha])            
+        # ListaSetor = ttk.Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        # for linha in range(0,len(setores)):
+        #     ListaSetor.insert(END, setores[linha])            
         
-        ListaSetor.pack(side = LEFT, fill = BOTH)
-        scrollbar.config(command= ListaSetor.yview)
+        # ListaSetor.pack(side = LEFT, fill = BOTH)
+        # scrollbar.config(command= ListaSetor.yview)
         
-        labelResult.config(text = "Retorno Consulta")
+        # labelResult.config(text = "Retorno Consulta")
     # if setores != None: 
     #     for setor in setores:
     #         print(setor)
@@ -150,3 +171,14 @@ def FuncaoButtonConsulta(codigoSetor, setor, codcoord, labelResult):
 def checkfill(codigo, setor, codcoord):
 
     return codigo.get()=='' or codcoord.get()=='' or setor.get==''
+
+def getColumnName():
+    COLUMN_NAME = banco.QueryColumnSetor()
+    colunas_tabela = []
+
+    if COLUMN_NAME != None: 
+        for i in COLUMN_NAME:
+            colunas_tabela.append(i[3])
+        return colunas_tabela
+    else:
+        return []

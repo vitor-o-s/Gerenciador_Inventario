@@ -1,34 +1,26 @@
-import tkinter as tk
-from tkinter import ttk
-from tkinter.messagebox import showinfo
+from tkinter import *
+from pandastable import Table, TableModel
 
-def popup_bonus():
-    win = tk.Toplevel()
-    win.wm_title("Window")
+class TestApp(Frame):
+    """Basic test frame for the table"""
+    def __init__(self, parent=None):
+        self.parent = parent
+        Frame.__init__(self)
+        self.main = self.master
+        self.main.geometry('600x400+200+100')
+        self.main.title('Table app')
+        f = Frame(self.main)
+        f.pack(fill=BOTH,expand=1)
+        
+        df = TableModel.getSampleData()
 
-    l = tk.Label(win, text="Input")
-    l.grid(row=0, column=0)
 
-    b = ttk.Button(win, text="Okay", command=win.destroy)
-    b.grid(row=1, column=0)
 
-def popup_showinfo():
-    showinfo("Window", "Hello World!")
+        self.table = pt = Table(f, dataframe=df,
+                                showtoolbar=True, showstatusbar=True)
+        pt.show()
+        return
 
-class Application(ttk.Frame):
-
-    def __init__(self, master):
-        ttk.Frame.__init__(self, master)
-        self.pack()
-
-        self.button_bonus = ttk.Button(self, text="Bonuses", command=popup_bonus)
-        self.button_bonus.pack()
-
-        self.button_showinfo = ttk.Button(self, text="Show Info", command=popup_showinfo)
-        self.button_showinfo.pack()
-
-# root = tk.Tk()
-
-# app = Application(root)
-
-# root.mainloop()
+app = TestApp()
+#launch the app
+app.mainloop()

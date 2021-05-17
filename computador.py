@@ -1,9 +1,10 @@
 from tkinter.constants import BOTH, END, LEFT, RIGHT, Y
 import banco
 import tkinter as tk
-from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox
+from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox,Frame
 from functools import partial
-
+import pandas as pd
+from pandastable import Table
 
 ''' MÉTODOS IMPLEMENTADOS:
     
@@ -32,7 +33,7 @@ def CadastroComputador():
     computador = tk.Tk()
     style = ttk.Style(computador)
     style.theme_use('clam')
-    computador.geometry('400x300')
+    computador.geometry('800x600')
     computador.title("Cadastro de Computador")
     row = 0
     lblTipoComputador = ttk.Label(computador, text='Tipo:')
@@ -146,7 +147,7 @@ def ConsultaComputador():
     computador = tk.Tk()
     style = ttk.Style(computador)
     style.theme_use('clam')
-    computador.geometry('400x300')
+    computador.geometry('800x600')
     computador.title("Cadastro de Computador")
     row = 0
     lblTipoComputador = ttk.Label(computador, text='Tipo:')
@@ -289,24 +290,41 @@ def FuncaoButtonCadastro(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, m
 def FuncaoButtonConsulta(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
     
     computadores = banco.ConsultaComputador(macETH.get(), macWLAN.get(), tipo.get(), modeloMB.get(), numserie.get(), modelonot.get(), modelochipset.get(), processador.get(), ram.get(), rom.get(), labelResult)
+
+    colunas = getColumnName()
+
+    listaComputadores = []
+    print(computadores)
+    for i in range(0,len(computadores)):
+        listaComputadores.append(list(computadores[i]))
+
+    df = pd.DataFrame(listaComputadores, columns=colunas)
+
+
+
     if computadores != None:
         root = tk.Tk()
         style = ttk.Style(root)
         style.theme_use('clam')
-        root.geometry('400x300')
+        root.geometry('800x600')
         root.title("Lista de computadores")
 
-        scrollbar = ttk.Scrollbar(root)
-        scrollbar.pack(side = RIGHT, fill=Y)
+        f = Frame(root)
+        f.pack(fill=BOTH,expand=1)
+        pt = Table(f, dataframe=df)
+        pt.show()
+
+        # scrollbar = Scrollbar(root)
+        # scrollbar.pack(side = RIGHT, fill=Y)
         
-        ListaComputadores = ttk.Listbox(root, yscrollcommand = scrollbar.set, width = 60)
-        for linha in range(0,len(computadores)):
-            ListaComputadores.insert(END, computadores[linha])            
+        # ListaComputadores = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        # for linha in range(0,len(computadores)):
+        #     ListaComputadores.insert(END, computadores[linha])            
         
-        ListaComputadores.pack(side = LEFT, fill = BOTH)
-        scrollbar.config(command= ListaComputadores.yview)
+        # ListaComputadores.pack(side = LEFT, fill = BOTH)
+        # scrollbar.config(command= ListaComputadores.yview)
         
-        labelResult.config(text = "Retorno Consulta")
+        # labelResult.config(text = "Retorno Consulta")
 
     else:
         labelResult.config(text = "Empresa não encontrado")      
@@ -318,3 +336,14 @@ def checkfill(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipse
             or numserie.get()=='' or modelonot.get()==''
             or modelochipset.get()==''or processador.get()==''
             or ram.get()=='' or rom.get()=='')
+
+def getColumnName():
+    COLUMN_NAME = banco.QueryColumnComputador()
+    colunas_tabela = []
+
+    if COLUMN_NAME != None: 
+        for i in COLUMN_NAME:
+            colunas_tabela.append(i[3])
+        return colunas_tabela
+    else:
+        return []

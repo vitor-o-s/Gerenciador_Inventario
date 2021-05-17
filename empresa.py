@@ -1,9 +1,10 @@
 from tkinter.constants import BOTH, END, LEFT, RIGHT, Y
 import banco
 import tkinter as tk
-from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox
+from tkinter import ttk, Label, Button, Entry, Menu, Toplevel, Scrollbar,Listbox,Frame
 from functools import partial
-
+import pandas as pd
+from pandastable import Table
 
 ''' MÉTODOS IMPLEMENTADOS:
 
@@ -13,6 +14,16 @@ from functools import partial
     - FuncaoButtonConsulta() #Botao tela Consulta
     - checkfill() #Verifica se campos vazio
     - masktel()
+
+'''
+
+''' Correções
+    -> Na coluna "Código responsável deve verificar na TABELA "PESSOA" se pessoa está cadastrado e atrelar o código
+
+	codEmpresa SERIAL NOT NULL,
+	nomeEmpresa VARCHAR(20),
+	telefone VARCHAR(13),
+	codResponsavel INTEGER	
 
 '''
 
@@ -143,6 +154,16 @@ def FuncaoButtonConsulta(codigo, nomeempresa, tel, codresp, labelResult):
 
     empresas = banco.ConsultaEmpresa(codigo.get(), nomeempresa.get(), tel.get(), codresp.get(), labelResult)
     
+    colunas = getColumnName()
+
+    listaSetores = []
+    print(empresas)
+    for i in range(0,len(empresas)):
+        listaSetores.append(list(empresas[i]))
+
+    df = pd.DataFrame(listaSetores, columns=colunas)
+
+
     if empresas != None:
         root = tk.Tk()
         style = ttk.Style(root)
@@ -150,17 +171,23 @@ def FuncaoButtonConsulta(codigo, nomeempresa, tel, codresp, labelResult):
         root.geometry('800x600')
         root.title("Lista de Empresas")
 
-        scrollbar = Scrollbar(root)
-        scrollbar.pack(side = RIGHT, fill=Y)
+        f = Frame(root)
+        f.pack(fill=BOTH,expand=1)
+        pt = Table(f, dataframe=df)
+        pt.show()
+
+
+        # scrollbar = Scrollbar(root)
+        # scrollbar.pack(side = RIGHT, fill=Y)
         
-        ListaEmpresa = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
-        for linha in range(0,len(empresas)):
-            ListaEmpresa.insert(END, empresas[linha])            
+        # ListaEmpresa = Listbox(root, yscrollcommand = scrollbar.set, width = 60)
+        # for linha in range(0,len(empresas)):
+        #     ListaEmpresa.insert(END, empresas[linha])            
         
-        ListaEmpresa.pack(side = LEFT, fill = BOTH)
-        scrollbar.config(command= ListaEmpresa.yview)
+        # ListaEmpresa.pack(side = LEFT, fill = BOTH)
+        # scrollbar.config(command= ListaEmpresa.yview)
         
-        labelResult.config(text = "Retorno Consulta")
+        # labelResult.config(text = "Retorno Consulta")
 
     else:
         labelResult.config(text = "Empresa não encontrado")
@@ -175,3 +202,14 @@ def checkfill(codigo, nomeempresa, tel, codresp):
 def masktel(tel):
 
     return len(tel) >= 8 #versão mascara inicial
+
+def getColumnName():
+    COLUMN_NAME = banco.QueryColumnEmpresa()
+    colunas_tabela = []
+
+    if COLUMN_NAME != None: 
+        for i in COLUMN_NAME:
+            colunas_tabela.append(i[3])
+        return colunas_tabela
+    else:
+        return []

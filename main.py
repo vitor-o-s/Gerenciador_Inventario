@@ -1,4 +1,3 @@
-from tkinter import ttk
 import setor, pessoa, computador, empresa
 import tkinter as tk
 from tkinter import  ttk, Menu
