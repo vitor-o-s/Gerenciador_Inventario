@@ -1,0 +1,119 @@
+CREATE TABLE COMPUTADOR(
+	macETH MACADDR NOT NULL,
+	macWLAN MACADDR NOT NULL,
+	tipoComputador VARCHAR(8),
+	modeloMB VARCHAR(30),
+	numeroSerie VARCHAR(30),
+	modeloNotebook VARCHAR(30),
+	modeloChipset VARCHAR(30),
+	processador VARCHAR(30),
+	ram VARCHAR(50),
+	rom VARCHAR(50),
+	codSetor INTEGER,
+	--score INTEGER DEFAULT NULL
+);
+
+CREATE TABLE SISTEMAOPERACIONAL(	
+	host VARCHAR(20),
+	sistemaOperacional VARCHAR(50),
+	chaveAtivacao VARCHAR(50),
+	IPv4 INET,
+	macETH MACADDR NOT NULL,
+	macWLAN MACADDR NOT NULL
+);
+
+CREATE TABLE PESSOA(	
+	codPessoa SERIAL NOT NULL,
+	nomeCompleto VARCHAR(70),
+	dataNascimento date,
+	email VARCHAR(50),
+	codSetor INTEGER,
+	macETH MACADDR,
+	macWLAN MACADDR
+);
+
+CREATE TABLE SETOR(	
+	codSetor SERIAL NOT NULL,
+	codCoordenador INTEGER, 
+	nomeSetor VARCHAR(20)
+);
+
+CREATE TABLE EMPRESA(
+	codEmpresa SERIAL NOT NULL,
+	nomeEmpresa VARCHAR(20),
+	telefone VARCHAR(13),
+	codResponsavel INTEGER	
+);
+
+--> CONSTRAINTS - PRIMARY KEY.
+ALTER TABLE Computador ADD CONSTRAINT mac PRIMARY KEY (macETH, macWLAN);
+ALTER TABLE Pessoa ADD CONSTRAINT codPessoa PRIMARY KEY (codPessoa);
+ALTER TABLE Setor ADD CONSTRAINT codSetor PRIMARY KEY (codSetor);
+ALTER TABLE Empresa ADD CONSTRAINT codEmpresa PRIMARY KEY (codEmpresa);
+
+--> CONSTRAINTS - FOREIGN KEY.
+ALTER TABLE Computador ADD CONSTRAINT codSetor FOREIGN KEY (codSetor) REFERENCES Setor(codSetor) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE SistemaOperacional ADD CONSTRAINT mac FOREIGN KEY (macETH, macWLAN) REFERENCES Computador (macETH, macWLAN) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE Pessoa ADD CONSTRAINT codSetor FOREIGN KEY (codSetor) REFERENCES Setor (codSetor) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE Pessoa ADD CONSTRAINT mac FOREIGN KEY (macETH, macWLAN) REFERENCES Computador (macETH, macWLAN) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE Setor ADD CONSTRAINT codCoordenador FOREIGN KEY (codCoordenador) REFERENCES Pessoa (codPessoa) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE Empresa ADD CONSTRAINT codResponsavel FOREIGN KEY (codResponsavel) REFERENCES Pessoa (codPessoa) ON UPDATE CASCADE ON DELETE SET NULL;
+
+-->ANALYZEs
+ANALYZE Computador;
+ANALYZE SistemaOperacional;
+ANALYZE Pessoa;
+ANALYZE Setor;
+
+-->INDEXEs.
+CREATE EXTENSION BTREE_GIN;
+CREATE EXTENSION PG_TRGM;
+
+CREATE INDEX idxETHSSD ON Computador (macETH, ROM)
+	WHERE ((Computador.macWLAN = '00:00:00:00:00:00' OR
+		   UPPER(Computador.tipoComputador) = 'DESKTOP') AND
+		  UPPER(Computador.ROM) LIKE 'SSD%');
+
+CREATE INDEX idxETHHDD ON Computador (macETH, ROM)
+WHERE ((Computador.macWLAN = '00:00:00:00:00:00' OR
+		   UPPER(Computador.tipoComputador) = 'DESKTOP') AND
+		  UPPER(Computador.ROM) LIKE 'HD%');
+
+CREATE INDEX idxWLANSSD ON Computador (macWLAN, ROM)
+	WHERE ((Computador.macWLAN != '00:00:00:00:00:00' AND
+		   UPPER(Computador.tipoComputador) = 'NOTEBOOK') AND
+		  Computador.ROM LIKE 'SSD%');
+		  
+CREATE INDEX idxWLANHDD ON Computador (macWLAN, ROM)
+	WHERE ((Computador.macWLAN != '00:00:00:00:00:00' AND
+		   UPPER(Computador.tipoComputador) = 'NOTEBOOK') AND
+		  Computador.ROM LIKE 'HD%');
+
+--> PREPARO DE CONSULTAS.
+Índices:
+	PCs com ethernet + SSD.
+	PCs com ethernet + HDD.
+	PCs com wifi + SSD.
+	PCs com wifi + HDD.
+Funções:
+	Busca de PCs com SSD e RAM < 8Gb.
+	Busca de PCs com SSD e RAM >= 8Gb.
+	Busca de PCs com HDD e RAM < 8Gb.
+	Busca de PCs com HDD e RAM >= 8Gb.
+	Gerar score das máquinas.
+Visões:
+	ETH + SSD + RAM < 8GB.
+	ETH + SSD + RAM >= 8GB.
+	ETH + HDD + RAM < 8GB.
+	ETH + HDD + RAM >= 8GB
+	WLAN + SSD + RAM < 8GB.
+	WLAN + SSD + RAM < 8GB.
+	WLAN + SSD + RAM < 8GB.
+	WLAN + SSD + RAM < 8GB.
+	Score 
+Triggers:
+	Cópia dos dados já após a inserção.
+	Disparo da função do score das máquinas.
+	Recalculo do Score.
+
+

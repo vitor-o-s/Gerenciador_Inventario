@@ -48,7 +48,7 @@ def salvarpessoa(nome, email, labelResult):
                                     VALUES (%s, %s);
                                     """,
                                     (str(nome), str(email)))
-                        # conn.commit() # commit para atualizar o banco 
+                        conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
                     print("Email cadastrado")
@@ -85,21 +85,21 @@ def ConsultaPessoa(nome, email, labelResult):
                     cur.execute("""
                                 SELECT * FROM PESSOA
                                 WHERE 1=1
-                                AND nomeCompleto LIKE '%s%%';
+                                AND LOWER(nomeCompleto) LIKE LOWER('%s%%');
                                 """ % nome)
 
                 elif(nome == '' and email != ''):
                     cur.execute("""
                                 SELECT * FROM PESSOA
                                 WHERE 1=1
-                                AND email LIKE LOWER('%s%%');
+                                AND LOWER(email) LIKE LOWER('%s%%');
                                 """ % (email))
                 else:
                     cur.execute("""
                                 SELECT * FROM PESSOA
                                 WHERE 1=1
-                                AND nomeCompleto LIKE '%s%%'
-                                AND email LIKE LOWER('%s%%')
+                                AND LOWER(nomeCompleto) LIKE LOWER('%s%%')
+                                AND LOWER(email) LIKE LOWER('%s%%')
                                 """ % (nome, email))
                         # conn.commit() # commit para atualizar o banco 
                 registros = cur.fetchall()
@@ -153,7 +153,7 @@ def salvarsetor(codigo, setor, codcoord, labelResult):
             with conn.cursor() as cur:
                 
                 if(checkSetor(setor)==1):
-                        print("Cadastrando Computador")
+                        print("Cadastrando Setor")
                         cur.execute("""
                                     INSERT INTO SETOR (codEmpresa, codCoordenador, nomeSetor)
                                     VALUES (%s, %s);
@@ -162,11 +162,9 @@ def salvarsetor(codigo, setor, codcoord, labelResult):
                         # conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
-                    print("Computador cadastrado")
- 
+                    print("Setor esta cadastrado no sistema") 
                     return 0
-            
-            
+
         else:
             print('Connection not established to PostgreSQL.')
             
@@ -187,17 +185,33 @@ def ConsultaSetor(codigoSetor, setor, codcoord, labelResult):
         if conn is not None:
             print('Connection established to PostgreSQL.')
             with conn.cursor() as cur:
-                
+                setores = []
                 if (setor=='' and codigoSetor ==''):
                     cur.execute("""
                                 SELECT * FROM SETOR
                                 """)
-                ### Terminar de colocar condições para consulta
-
-
-                        # conn.commit() # commit para atualizar o banco 
-                setores = cur.fetchall()
-
+                    setores = cur.fetchall()
+                elif codigoSetor != '':
+                    cur.execute("""
+                                SELECT * FROM SETOR
+                                WHERE 1=1
+                                AND codSetor = %d
+                                """ % (int(codigoSetor)))             
+                    setores = cur.fetchall()
+                    if setores == [] and setor!='':
+                        cur.execute("""
+                                    SELECT * FROM SETOR
+                                    WHERE 1=1
+                                    AND LOWER(nomeSetor) LIKE LOWER('%s%%')
+                                    """ % (setor))    
+                elif setor != '':
+                    cur.execute("""
+                                    SELECT * FROM SETOR
+                                    WHERE 1=1
+                                    AND LOWER(nomeSetor) LIKE LOWER('%s%%')
+                                    """ % (setor))    
+                    setores = cur.fetchall()
+                cur.close()
                 return setores
         else:
             print('Connection not established to PostgreSQL.')
@@ -223,18 +237,20 @@ def salvarempresa(codigo, nomeempresa, tel, codresp, labelResult):
         if conn is not None:
             print('Connection established to PostgreSQL.')
             with conn.cursor() as cur:
-                
-                if(checkEmpresa(nomeempresa)==1):
-                        print("Cadastrando Computador")
+                if(checkEmpresaCodigo(codigo)==1):
+                    if(checkEmpresaNome(nomeempresa)==1):
+                        print("Cadastrando empresa")
                         cur.execute("""
                                     INSERT INTO EMPRESA (codEmpresa, nomeEmpresa, telefone)
                                     VALUES (%s, %s, %s);
                                     """,
                                     (str(codigo), str(nomeempresa), str(tel)))
-                        # conn.commit() # commit para atualizar o banco 
+                        conn.commit() # commit para atualizar o banco 
                         return 1        
+                    else:
+                        print("Nome empresa existente")
                 else:
-                    print("Computador cadastrado")
+                    print("Codigo empresa existente")
  
                     return 0
             
@@ -258,16 +274,31 @@ def ConsultaEmpresa(codigo, nomeempresa, tel, codresp, labelResult):
             print('Connection established to PostgreSQL.')
             with conn.cursor() as cur:
                 
-                if (nomeempresa=='' and codresp ==''):
+                empresas = []
+                if (nomeempresa=='' and codresp =='' and codigo ==''):
                     cur.execute("""
                                 SELECT * FROM EMPRESA
                                 """)
-                ### Terminar de colocar condições para consulta
-
-
-                        # conn.commit() # commit para atualizar o banco 
+                elif(codigo != ''):
+                    cur.execute("""
+                                SELECT * FROM EMPRESA
+                                WHERE 1=1
+                                AND codEmpresa = %d
+                                """ % (int(codigo)))
+                elif(nomeempresa != ''):
+                    cur.execute("""
+                                SELECT * FROM EMPRESA
+                                WHERE 1=1
+                                AND LOWER(nomeEmpresa) LIKE LOWER('%s%%')
+                                """ % (nomeempresa))
+                elif(codresp != ''):
+                    cur.execute("""
+                                SELECT * FROM EMPRESA
+                                WHERE 1=1
+                                AND LOWER(codResponsavel) LIKE LOWER('%s%%')
+                                """ % (codresp))
                 empresas = cur.fetchall()
-
+                cur.close()
                 return empresas
         else:
             print('Connection not established to PostgreSQL.')
@@ -296,6 +327,7 @@ def salvarcomputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, model
             with conn.cursor() as cur:
                 
                 if(checkComputador(macETH,macWLAN)==1):
+                    if(checkComputadorSerie(numserie)==1):
                         print("Cadastrando Computador")
                         cur.execute("""
                                     INSERT INTO COMPUTADOR (macETH,
@@ -320,7 +352,7 @@ def salvarcomputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, model
                                      str(processador),
                                      str(ram),
                                      str(rom) ))
-                        # conn.commit() # commit para atualizar o banco 
+                        conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
                     print("Computador cadastrado")
@@ -347,17 +379,38 @@ def ConsultaComputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, mod
         if conn is not None:
             print('Connection established to PostgreSQL.')
             with conn.cursor() as cur:
-                
+                computadores = []
                 if (tipo=='' and modelonot ==''):
                     cur.execute("""
                                 SELECT * FROM COMPUTADOR
                                 """)
-                ### Terminar de colocar condições para consulta
-
-
-                        # conn.commit() # commit para atualizar o banco 
+                elif(tipo != ''):
+                    cur.execute("""
+                                SELECT * FROM COMPUTADOR
+                                WHERE 1=1
+                                AND LOWER(tipoComputador) LIKE LOWER('%s%%')
+                                """ % (tipo))
+                elif(macETH != ''):
+                    cur.execute("""
+                                SELECT * FROM COMPUTADOR
+                                WHERE 1=1
+                                AND LOWER(macETH) LIKE LOWER('%s%%')
+                                """ % (macETH))
+                elif(processador != ''):
+                    cur.execute("""
+                                SELECT * FROM COMPUTADOR
+                                WHERE 1=1
+                                AND LOWER(processador) LIKE LOWER('%s%%')
+                                """ % (processador))
+                elif(modelonot != ''):
+                    cur.execute("""
+                                SELECT * FROM COMPUTADOR
+                                WHERE 1=1
+                                AND LOWER(modeloNotebook) LIKE LOWER('%s%%')
+                                """ % (modelonot))
+                
                 computadores = cur.fetchall()
-
+                cur.close()
                 return computadores
         else:
             print('Connection not established to PostgreSQL.')
@@ -394,36 +447,62 @@ def checkSetor(setor):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     cur2 = conn.cursor()
+    # cur2.execute("""
+    #         SELECT nomeSetor
+    #         FROM SETOR
+    #         WHERE 1=1 
+    #         AND nomeSetor LIKE LOWER('%s%%')   
+    #         """ % (setor))
+    cur2.execute(""" 
+                SELECT *
+                FROM INFORMATION_SCHEMA.COLUMNS
+                WHERE TABLE_NAME = 'setor'
+                """)
+    # cur2.execute("""
+    #         SELECT nomeSetor
+    #         FROM SETOR
+    #         WHERE 1=1 
+    #         AND nomeSetor  
+    #         """)
+    print(cur2.fetchall())
+
+    if cur2.fetchall() == []:
+        cur2.close()
+        return 1
+    else:
+        cur2.close()
+        return -1
+
+#Testar
+def checkEmpresaCodigo(codigo):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    cur2 = conn.cursor()
     cur2.execute("""
-            SELECT nomeSetor
-            FROM SETOR
+            SELECT *
+            FROM EMPRESA
             WHERE 1=1 
-            AND nomeSetor =  '"""+str(setor)+"""'   
+            AND codEmpresa  =  '"""+str(codigo)+"""'   
             """)
     if cur2.fetchall() == []:
         cur2.close()
         return 1
     else:
-        # print("Existe usuario cadastrado com este e-mail")
         cur2.close()
         return -1
 
-#Testar
-def checkEmpresa(empresa):
-
+def checkEmpresaNome(nomeempresa):
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     cur2 = conn.cursor()
     cur2.execute("""
             SELECT nomeEmpresa
             FROM EMPRESA
             WHERE 1=1 
-            AND nomeEmpresa =  '"""+str(empresa)+"""'   
+            AND nomeEmpresa  =  '"""+str(nomeempresa)+"""'   
             """)
     if cur2.fetchall() == []:
         cur2.close()
         return 1
     else:
-        # print("Existe usuario cadastrado com este e-mail")
         cur2.close()
         return -1
 
@@ -441,11 +520,94 @@ def checkComputador(macETH, macWLAN):
         cur2.close()
         return 1
     else:
-        # print("Existe usuario cadastrado com este e-mail")
+        cur2.close()
+        return -1
+
+def checkComputadorSerie(NumSerie):
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    cur2 = conn.cursor()
+    cur2.execute("""
+            SELECT *,
+            FROM COMPUTADOR
+            WHERE 1=1 
+            AND numeroSerie  =  '"""+str(NumSerie)+"""'   
+            """)
+    if cur2.fetchall() == []:
+        cur2.close()
+        return 1
+    else:
         cur2.close()
         return -1
 
 
+def QueryColumnSetor():
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                cur.execute(""" 
+                            SELECT *
+                            FROM INFORMATION_SCHEMA.COLUMNS
+                            WHERE TABLE_NAME = 'setor'
+                            """)
+                registros = cur.fetchall()
+            return registros
+        else:
+            print('Connection not established to PostgreSQL.')
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+def QueryColumnEmpresa():
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                cur.execute(""" 
+                            SELECT *
+                            FROM INFORMATION_SCHEMA.COLUMNS
+                            WHERE TABLE_NAME = 'empresa'
+                            """)
+                registros = cur.fetchall()
+            return registros
+        else:
+            print('Connection not established to PostgreSQL.')
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
+
+def QueryColumnComputador():
+    conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
+    try:
+        if conn is not None:
+            print('Connection established to PostgreSQL.')
+            with conn.cursor() as cur:
+                cur.execute(""" 
+                            SELECT *
+                            FROM INFORMATION_SCHEMA.COLUMNS
+                            WHERE TABLE_NAME = 'computador'
+                            """)
+                registros = cur.fetchall()
+            return registros
+        else:
+            print('Connection not established to PostgreSQL.')
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Finally, connection closed.')
 
 
 #RETORNA TODOS USUARIOS
