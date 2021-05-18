@@ -45,7 +45,7 @@ def CadastroSetor():
     Setor.title('Cadastro de Setores')
     lblCodigo = ttk.Label(Setor, text='Codigo do setor:')
     lblCodigo.grid(column=0, row=0)
-    txtCodigo = ttk.Entry(Setor, width=10)
+    txtCodigo = ttk.Entry(Setor, width=30)
     txtCodigo.grid(column=1, row=0)
     lblNomeSetor = ttk.Label(Setor, text='Setor:')
     lblNomeSetor.grid(column=0, row=1)
@@ -53,7 +53,7 @@ def CadastroSetor():
     txtNomeSetor.grid(column=1, row=1)
     lblCodigoCoordenador = ttk.Label(Setor, text='Código Coordenador:')
     lblCodigoCoordenador.grid(column=0, row=2)
-    txtCodigoCoordenador = ttk.Entry(Setor, width=10)
+    txtCodigoCoordenador = ttk.Entry(Setor, width=30)
     txtCodigoCoordenador.grid(column=1, row=2)
 
 
@@ -67,9 +67,7 @@ def CadastroSetor():
     btnIncluir.grid(column=1, row=3)
 
 ####################################################################################
-
 ############################ CONSULTA SETOR #########################################
-
 ####################################################################################
 # Ajeitar
 def ConsultaSetor():
@@ -81,31 +79,24 @@ def ConsultaSetor():
     Setor.title('Consulte Setores')
     lblCodigo = ttk.Label(Setor, text='Codigo do setor:')
     lblCodigo.grid(column=0, row=0)
-    txtCodigo = ttk.Entry(Setor, width=10)
+    txtCodigo = ttk.Entry(Setor, width=30)
     txtCodigo.grid(column=1, row=0)
     
     lblNomeSetor = ttk.Label(Setor, text='Setor:')
     lblNomeSetor.grid(column=0, row=1)
     txtNomeSetor = ttk.Entry(Setor, width=30)
     txtNomeSetor.grid(column=1, row=1)
-    
-    lblCodigoCoordenador = ttk.Label(Setor, text='Código Coordenador:')
-    lblCodigoCoordenador.grid(column=0, row=2)
-    txtCodigoCoordenador = ttk.Entry(Setor, width=10)
-    txtCodigoCoordenador.grid(column=1, row=2)
 
     labelResult = ttk.Label(Setor)  
     labelResult.grid(row=4, column=1) 
 
-    btnIncluir = ttk.Button(Setor, text='Consultar', command = partial(FuncaoButtonConsulta, txtCodigo, txtNomeSetor,txtCodigoCoordenador, labelResult))
+    btnIncluir = ttk.Button(Setor, text='Consultar', command = partial(FuncaoButtonConsulta, txtCodigo, txtNomeSetor,labelResult))
     btnIncluir.grid(column=1, row=3)
 
 
 
 ####################################################################################
-
 ############################ FUNÇÃO BOTÃO CADASTRO ##################################
-
 ####################################################################################
 def FuncaoButtonCadastro(codigoSetor, setor, codcoord, labelResult):
 
@@ -121,13 +112,11 @@ def FuncaoButtonCadastro(codigoSetor, setor, codcoord, labelResult):
 
 
 ####################################################################################
-
-############################# FUNÃO BOTÃO CONSULTA #################################
-
+############################# FUNÇÃO BOTÃO CONSULTA #################################
 ####################################################################################
-def FuncaoButtonConsulta(codigoSetor, setor, codcoord, labelResult):
+def FuncaoButtonConsulta(codigoSetor, setor, labelResult):
 
-    setores = banco.ConsultaSetor(codigoSetor.get(), setor.get(), codcoord.get(), labelResult)
+    setores = banco.ConsultaSetor(codigoSetor.get(), setor.get(), labelResult)
 
     colunas = getColumnName()
 
