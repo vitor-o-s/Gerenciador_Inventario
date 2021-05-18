@@ -156,28 +156,10 @@ def ConsultaComputador():
     txtTipoComputador.grid(column=1, row=row)
     row += 1
 
-    lblModeloMB = ttk.Label(computador, text='Modelo MB:')
-    lblModeloMB.grid(column=0, row=row)
-    txtModeloMB = ttk.Entry(computador, width=50)
-    txtModeloMB.grid(column=1, row=row)
-    row += 1
-
-    lblNumeroSerie = ttk.Label(computador, text='numero de serie:')
-    lblNumeroSerie.grid(column=0, row=row)
-    txtNumeroSerie = ttk.Entry(computador, width=50)
-    txtNumeroSerie.grid(column=1, row=row)
-    row += 1
-
     lblModeloNotebook = ttk.Label(computador, text='Modelo Notebook:')
     lblModeloNotebook.grid(column=0, row=row)
     txtModeloNotebook = ttk.Entry(computador, width=50)
     txtModeloNotebook.grid(column=1, row=row)
-    row += 1
-
-    lblModeloChipset = ttk.Label(computador, text='Modelo Chipset:')
-    lblModeloChipset.grid(column=0, row=row)
-    txtModeloChipset = ttk.Entry(computador, width=50)
-    txtModeloChipset.grid(column=1, row=row)
     row += 1
 
     lblProcessador = ttk.Label(computador, text='Processador:')
@@ -186,23 +168,6 @@ def ConsultaComputador():
     txtProcessador.grid(column=1, row=row)
     row += 1
 
-    lblRam = ttk.Label(computador, text='Ram:')
-    lblRam.grid(column=0, row=row)
-    txtRam = ttk.Entry(computador, width=50)
-    txtRam.grid(column=1, row=row)
-    row += 1
-
-    lblRom = ttk.Label(computador, text='Rom:')
-    lblRom.grid(column=0, row=row)
-    txtRom = ttk.Entry(computador, width=50)
-    txtRom.grid(column=1, row=row)
-    row += 1
-
-    lblCodigoSetor = ttk.Label(computador, text='Código do Setor:')
-    lblCodigoSetor.grid(column=0, row=row)
-    txtCodigoSetor = ttk.Entry(computador, width=50)
-    txtCodigoSetor.grid(column=1, row=row)
-    row += 1
 
     lblmacETH = ttk.Label(computador, text='macETH:')
     lblmacETH.grid(column=0,row=row)
@@ -210,38 +175,13 @@ def ConsultaComputador():
     txtmacETH.grid(column=1,row=row)
     row += 1
 
-    lblmacWLAN = ttk.Label(computador, text='macWLAN:')
-    lblmacWLAN.grid(column=0,row=row)
-    txtmacWLAN = ttk.Entry(computador,width=50)
-    txtmacWLAN.grid(column=1,row=row)
-    row += 1
-
-    '''
-	macETH MACADDR NOT NULL, - criado
-	macWLAN MACADDR NOT NULL, - criado
-	tipoComputador VARCHAR(8), - ja tem
-	modeloMB VARCHAR(30), - ja tem 
-	numeroSerie VARCHAR(30), -  ja tem 
-	modeloNotebook VARCHAR(30), - ja tem
-	modeloChipset VARCHAR(30), - ja tem 
-	processador VARCHAR(30), - ja tem
-	ram VARCHAR(50), - ja tem
-	rom VARCHAR(50), - ja tem
-	codSetor INTEGER, - lista de setores disponiveis ? 
-    '''
-
     labelResult = ttk.Label(computador) 
     btnIncluir = ttk.Button(computador, text='Consultar', 
                         command=partial(FuncaoButtonConsulta,
                                         txtmacETH,
-                                        txtmacWLAN,
                                         txtTipoComputador, 
-                                        txtModeloMB, 
-                                        txtNumeroSerie, 
-                                        txtModeloNotebook, 
-                                        txtModeloChipset, 
+                                        txtModeloNotebook,
                                         txtProcessador, 
-                                        txtRam,txtRom, 
                                         labelResult))
     btnIncluir.grid(column=1, row=row)   
  
@@ -252,9 +192,7 @@ def ConsultaComputador():
     labelResult.grid(row=row, column=1)
 
 ##############################################################################################################################
-
 ########################################## FUNÇÃO BOTÃO CADASTRA COMPUTADOR ###################################################################
-
 ##############################################################################################################################
 
 
@@ -282,14 +220,12 @@ def FuncaoButtonCadastro(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, m
             labelResult.config(text="Computador já existe na tabela")
         
 ##############################################################################################################################
-
-########################################## FUNÇÃO BOTÃO CONSULTA COMPUTADOR ###################################################################
-
+########################################## FUNÇÃO BOTÃO CONSULTA COMPUTADOR ################################################
 ##############################################################################################################################
 
-def FuncaoButtonConsulta(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
+def FuncaoButtonConsulta(macETH, tipo, modelonot, processador, labelResult):
     
-    computadores = banco.ConsultaComputador(macETH.get(), macWLAN.get(), tipo.get(), modeloMB.get(), numserie.get(), modelonot.get(), modelochipset.get(), processador.get(), ram.get(), rom.get(), labelResult)
+    computadores = banco.ConsultaComputador(macETH.get(), tipo.get(), modelonot.get(), processador.get(), labelResult)
 
     colunas = getColumnName()
 

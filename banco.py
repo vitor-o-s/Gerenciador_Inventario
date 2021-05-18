@@ -1,11 +1,10 @@
 import psycopg2
+
 pswd = 'a8ee2d0d3e8741fa884c1c190aa2f384d53a96b5fe96443eac9863c261822cbc'
 host = 'ec2-54-167-152-185.compute-1.amazonaws.com'
 user = 'nkqrevofvmcinl'
 db   = 'dbvmtp12eqm8g8'
 port = 5432
-
-
 
 '''
     Métodos implementados:
@@ -19,16 +18,12 @@ port = 5432
     - checkSetor()
     - checkEmpresa()
     - checkComputador()
-
-
-
-
 '''
 ########################################################################
 ######################## INCLUSAO PESSOA ###############################
 ########################################################################
 
-def salvarpessoa(nome, email, labelResult):
+def salvarpessoa(nome, email, data, cod, labelResult):
     
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     
@@ -44,10 +39,10 @@ def salvarpessoa(nome, email, labelResult):
                 if(checkEmail(email)==1):
                         print("Cadastrando usuario")
                         cur.execute("""
-                                    INSERT INTO PESSOA (nomeCompleto, email)
-                                    VALUES (%s, %s);
+                                    INSERT INTO PESSOA (nomeCompleto, dataNascimento, email, codSetor)
+                                    VALUES (%s, %d, %s, %d);
                                     """,
-                                    (str(nome), str(email)))
+                                    (str(nome), int(data), str(email), int(cod)))
                         conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
@@ -178,7 +173,7 @@ def salvarsetor(codigo, setor, codcoord, labelResult):
 
 
 
-def ConsultaSetor(codigoSetor, setor, codcoord, labelResult):
+def ConsultaSetor(codigoSetor, setor, labelResult):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     try:
@@ -266,7 +261,7 @@ def salvarempresa(codigo, nomeempresa, tel, codresp, labelResult):
             conn.close()
             print('Finally, connection closed.')
 
-def ConsultaEmpresa(codigo, nomeempresa, tel, codresp, labelResult):
+def ConsultaEmpresa(codigo, nomeempresa, codresp, labelResult):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     try:
@@ -372,7 +367,7 @@ def salvarcomputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, model
             print('Finally, connection closed.')
 
 
-def ConsultaComputador(macETH, macWLAN, tipo, modeloMB, numserie, modelonot, modelochipset, processador, ram, rom, labelResult):
+def ConsultaComputador(macETH, tipo, modelonot, processador, labelResult):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     try:
@@ -608,23 +603,3 @@ def QueryColumnComputador():
         if conn is not None:
             conn.close()
             print('Finally, connection closed.')
-
-
-#RETORNA TODOS USUARIOS
-#cur.execute("SELECT * FROM PESSOA ;")
-
-#### LINHA PARA EXCLUIR USUARIOS SEM NOME
-# cur.execute("DELETE FROM PESSOA WHERE nomeCompleto = ''")
-# linhas_deletadas = cur.rowcount
-#return linhas_deletadas
-
-
-############### Retorna usuario do e-mail inserido
-# cur.execute("""
-#             SELECT nomeCompleto, email
-#             FROM PESSOA
-#             WHERE 1=1
-#             AND email = '"""+str(email)+"""'        
-#             """)
-# result = cur.fetchall() 
-# return result

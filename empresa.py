@@ -29,9 +29,7 @@ from pandastable import Table
 
 
 ##############################################################################################################################
-
 ########################################## CADASTRO EMPRESA ###################################################################
-
 ##############################################################################################################################
 
 
@@ -44,7 +42,7 @@ def CadastroEmpresa():
     
     lblCodigo = ttk.Label(Empresa, text='Código:')
     lblCodigo.grid(column=0, row=0)
-    txtCodigo = ttk.Entry(Empresa, width=10)
+    txtCodigo = ttk.Entry(Empresa, width=50)
     txtCodigo.grid(column=1, row=0)
     
     lblNomeEmpresa = ttk.Label(Empresa, text='Nome da Empresa:')
@@ -75,9 +73,7 @@ def CadastroEmpresa():
     btnIncluir.grid(column=1, row=6)
 
 ##############################################################################################################################
-
 ########################################## CONSULTA EMPRESA ###################################################################
-
 ##############################################################################################################################
 
 def ConsultaEmpresa():
@@ -89,18 +85,13 @@ def ConsultaEmpresa():
     
     lblCodigo = ttk.Label(Empresa, text='Código:')
     lblCodigo.grid(column=0, row=0)
-    txtCodigo = ttk.Entry(Empresa, width=10)
+    txtCodigo = ttk.Entry(Empresa, width=50)
     txtCodigo.grid(column=1, row=0)
     
     lblNomeEmpresa = ttk.Label(Empresa, text='Nome da Empresa:')
     lblNomeEmpresa.grid(column=0, row=1)
     txtNomeEmpresa = ttk.Entry(Empresa, width=50)
     txtNomeEmpresa.grid(column=1, row=1)
-    
-    lblTelefone = ttk.Label(Empresa, text='Telefone:')
-    lblTelefone.grid(column=0, row=2)
-    txtTelefone = ttk.Entry(Empresa, width=50)
-    txtTelefone.grid(column=1, row=2)
     
     lblCodResponsavel = ttk.Label(Empresa, text='codigo do responsavel:')
     lblCodResponsavel.grid(column=0, row=3)
@@ -114,18 +105,13 @@ def ConsultaEmpresa():
                          command=partial(FuncaoButtonConsulta,
                                          txtCodigo, 
                                          txtNomeEmpresa, 
-                                         txtTelefone, 
                                          txtCodResponsavel, labelResult))
     btnIncluir.grid(column=1, row=6)
     labelResult.grid(row=7, column=1) 
-##############################################################################################################################
 
+##############################################################################################################################
 ########################################## FUNÇÃO BOTÃO CADASTRA EMPRESA ###################################################################
-
 ##############################################################################################################################
-
-
-
 def FuncaoButtonCadastro(codigo, nomeempresa, tel, codresp, labelResult):
     if checkfill(codigo, nomeempresa, tel, codresp):
         labelResult.config(text="Um dos campos não foi preenchido. Favor verificar")
@@ -141,18 +127,12 @@ def FuncaoButtonCadastro(codigo, nomeempresa, tel, codresp, labelResult):
         else:
             labelResult.config(text="Telefone invalido")
 
-
 ##############################################################################################################################
-
 ########################################## FUNÇÃO BOTÃO CONSULTA ###################################################################
-
 ##############################################################################################################################
+def FuncaoButtonConsulta(codigo, nomeempresa, codresp, labelResult):
 
-
-
-def FuncaoButtonConsulta(codigo, nomeempresa, tel, codresp, labelResult):
-
-    empresas = banco.ConsultaEmpresa(codigo.get(), nomeempresa.get(), tel.get(), codresp.get(), labelResult)
+    empresas = banco.ConsultaEmpresa(codigo.get(), nomeempresa.get(), codresp.get(), labelResult)
     
     colunas = getColumnName()
 
