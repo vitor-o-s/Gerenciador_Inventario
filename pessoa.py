@@ -84,10 +84,11 @@ def FuncaoButtonCadastro(nome, email,data, cod, labelResult):
         # labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
     if checkdatanascimento(data.get())!=1: showinfo("Erro 3","Data de nascimento inválida!")
-
+    if checkcodsetor(cod.get())!=1: showinfo("Erro 4", "Código do setor deve ser um inteiro")
+    if checknome(nome.get())!=1: showinfo("Erro 5","Nome não deve conter caractere especial ou número!")
     else:
          
-        if mask(email.get())==1 and checkcodsetor(cod.get()):
+        if mask(email.get())==1:
             resultado = banco.salvarpessoa(nome.get(), email.get(), data.get(), cod.get(), labelResult)
             if resultado == 1:
                 showinfo("Cadastro Sucesso", "Usuario cadastrado com sucesso")
@@ -157,10 +158,21 @@ def checkDomain(s, lo):
     return dominio_email == '@empresa.com.br'
 
 def checkcodsetor(cod):
-    pass
+
+    return cod.isdigit()
 
 def checknome(nome):
-    pass
+    import re 
+
+    regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]0123456789')
+   
+    if(regex.search(nome) == None):
+        print("String is accepted")
+        return 1
+          
+    else:
+        print("String is not accepted.")
+        return 0
 
 def checkdatanascimento(data):
     
@@ -169,6 +181,8 @@ def checkdatanascimento(data):
     date_format = '%d-%m-%Y'
     try:
         date_obj = datetime.datetime.strptime(date_string, date_format)
-        print(date_obj)
+        print(date_obj,'Deu certo')
     except ValueError:
-         print("Incorrect data format, should be YYYY-MM-DD")
+         print("Incorrect data format, should be DD-MM-YYYY")
+         return 0
+    return 1
