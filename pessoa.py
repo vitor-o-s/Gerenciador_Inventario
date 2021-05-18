@@ -154,7 +154,7 @@ def FuncaoButtonCadastro(nome, email,labelResult):
 
 
 def FuncaoButtonConsulta(nome, email, labelResult):
-    
+
     pessoas = banco.ConsultaPessoa(nome.get(), email.get(), labelResult)
     
     colunas = getColumnName()
