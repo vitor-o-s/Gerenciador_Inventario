@@ -39,10 +39,10 @@ def CadastroPessoa():
     txtSetor.grid(column=1, row=7)
     
     labelResult = ttk.Label(Pessoa)  
-    labelResult.grid(row=7, column=1) 
+    labelResult.grid(row=10, column=1) 
 
     btnIncluir = ttk.Button(Pessoa, text='Incluir', command = partial(FuncaoButtonCadastro, txtNomePessoa, txtEmail, txtdatanascimento, txtSetor,labelResult))
-    btnIncluir.grid(column=1, row=6)
+    btnIncluir.grid(column=1, row=9)
 
 def ConsultaPessoa():
 
@@ -77,15 +77,18 @@ def ConsultaPessoa():
                                                                   txtEmail, labelResult))
     btnIncluir.grid(column=1, row=6)
 
-def FuncaoButtonCadastro(nome, email,labelResul, data, cod):
+def FuncaoButtonCadastro(nome, email,data, cod, labelResult):
 
     if checkfill(nome,email,data,cod):
         showinfo("Campo Vazio", "Os campos não foram preenchidos corretamente")
         # labelResult.config(text="Nome ou Cargo ou Email não foi preenchido. Favor verificar")
 
+    if checkdatanascimento(data.get())!=1: showinfo("Erro 3","Data de nascimento inválida!")
+
     else:
-        if mask(email.get())==1:
-            resultado = banco.salvarpessoa(nome.get(), email.get(), labelResult)
+         
+        if mask(email.get())==1 and checkcodsetor(cod.get()):
+            resultado = banco.salvarpessoa(nome.get(), email.get(), data.get(), cod.get(), labelResult)
             if resultado == 1:
                 showinfo("Cadastro Sucesso", "Usuario cadastrado com sucesso")
                 # labelResult.config(text="Usuario cadastrado com sucesso")
@@ -93,7 +96,7 @@ def FuncaoButtonCadastro(nome, email,labelResul, data, cod):
                 showinfo("Erro 1", "Usuario já existe na tabela")
                 # labelResult.config(text="Usuário já existe na tabela")
         else:
-            showinfo("Erro 2", "Dominio email inválido")
+            showinfo("Erro 2", "E-mail inválido")
             # labelResult.config(text="Dominio email invalido")
             return 
 
@@ -152,3 +155,20 @@ def mask(s):
 def checkDomain(s, lo):
     dominio_email = s[lo:]
     return dominio_email == '@empresa.com.br'
+
+def checkcodsetor(cod):
+    pass
+
+def checknome(nome):
+    pass
+
+def checkdatanascimento(data):
+    
+    import datetime
+    date_string = data.replace('/','-')
+    date_format = '%d-%m-%Y'
+    try:
+        date_obj = datetime.datetime.strptime(date_string, date_format)
+        print(date_obj)
+    except ValueError:
+         print("Incorrect data format, should be YYYY-MM-DD")
