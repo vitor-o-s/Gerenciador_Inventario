@@ -104,33 +104,39 @@ def FuncaoButtonCadastro(nome, email,data, cod, labelResult):
 
 def FuncaoButtonConsulta(nome, email, labelResult):
     
-    pessoas = banco.ConsultaPessoa(nome.get(), email.get(), labelResult)
+    if mask(email.get())==1:
+        pessoas = banco.ConsultaPessoa(nome.get(), email.get(), labelResult)
     
-    colunas = getColumnName()
 
-    # print(colunas)
-    # print(list(pessoas[0]))
-    listaPessoa = []
-    for i in range(0,len(pessoas)):
-        listaPessoa.append(list(pessoas[i]))
+        colunas = getColumnName()
 
-    df = pd.DataFrame(listaPessoa, columns=colunas)
+        # print(colunas)
+        # print(list(pessoas[0]))
+        listaPessoa = []
+        for i in range(0,len(pessoas)):
+            listaPessoa.append(list(pessoas[i]))
 
-    if pessoas != None:
-        root = tk.Tk()
-        style = ttk.Style(root)
-        style.theme_use('clam')
-        root.geometry('800x600')
-        root.title("Lista de Pessoas")
-        f = Frame(root)
-        f.pack(fill=BOTH,expand=1)
-        pt = Table(f, dataframe=df)
-        pt.show()
+        df = pd.DataFrame(listaPessoa, columns=colunas)
 
+        if pessoas != None:
+            root = tk.Tk()
+            style = ttk.Style(root)
+            style.theme_use('clam')
+            root.geometry('800x600')
+            root.title("Lista de Pessoas")
+            f = Frame(root)
+            f.pack(fill=BOTH,expand=1)
+            pt = Table(f, dataframe=df)
+            pt.show()
+
+        else:
+            showinfo("Window", "resultado não encontrado")
+            # labelResult.config(text= "resultado não encontrado")
     else:
-        showinfo("Window", "resultado não encontrado")
-        # labelResult.config(text= "resultado não encontrado")
-
+        showinfo("Erro 2", "E-mail inválido")
+        # labelResult.config(text="Dominio email invalido")
+        return 
+        
 
     ## RETORNA COLUNAS DA TABELA (TODAS)
 
