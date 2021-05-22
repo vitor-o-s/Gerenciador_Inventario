@@ -168,16 +168,16 @@ def checkcodsetor(cod):
     return cod.isdigit()
 
 def checknome(nome):
-    import re 
+    nome_splitado = nome.split(' ')
+    nome_completo = ''
 
-    regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]0123456789')
-   
-    if(regex.search(nome) == None):
-        print("String is accepted")
+
+    for i in nome_splitado:
+        nome_completo = nome_completo + str.upper(list(i)[0]) 
+        nome_completo = nome_completo + str.lower(i[1:])
+    if str.isalpha(nome_completo):
         return 1
-          
     else:
-        print("String is not accepted.")
         return 0
 
 def checkdatanascimento(data):
