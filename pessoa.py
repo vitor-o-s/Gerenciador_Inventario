@@ -103,7 +103,11 @@ def FuncaoButtonCadastro(nome, email,data, cod, labelResult):
 
 
 def FuncaoButtonConsulta(nome, email, labelResult):
-    
+
+    if checknome(nome.get())!=1: 
+        showinfo("Erro 5","Nome não deve conter caractere especial ou número!")
+        return
+        
     if mask(email.get())==1:
         pessoas = banco.ConsultaPessoa(nome.get(), email.get(), labelResult)
     
