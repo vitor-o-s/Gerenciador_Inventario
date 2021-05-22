@@ -104,10 +104,13 @@ def FuncaoButtonCadastro(nome, email,data, cod, labelResult):
 
 def FuncaoButtonConsulta(nome, email, labelResult):
 
-    if checknome(nome.get())!=1: 
+
+    if checknomeconsulta(nome.get())!=1:
+        if mask(email.get())!=1:
+            showinfo ("Erro 2", "E-mail inválido")
         showinfo("Erro 5","Nome não deve conter caractere especial ou número!")
         return
-        
+
     if mask(email.get())==1:
         pessoas = banco.ConsultaPessoa(nome.get(), email.get(), labelResult)
     
@@ -171,10 +174,24 @@ def checkcodsetor(cod):
 
     return cod.isdigit()
 
-def checknome(nome):
+def checknomeconsulta(nome):
     nome_splitado = nome.split(' ')
     nome_completo = ''
 
+    if nome == '': return 1
+
+    for i in nome_splitado:
+        nome_completo = nome_completo + str.upper(list(i)[0]) 
+        nome_completo = nome_completo + str.lower(i[1:])
+    if str.isalpha(nome_completo):
+        return 1
+    else:
+        return 0
+
+def checknome(nome):
+    nome_splitado = nome.split(' ')
+    nome_completo = ''
+      
 
     for i in nome_splitado:
         nome_completo = nome_completo + str.upper(list(i)[0]) 
