@@ -1,4 +1,5 @@
 import psycopg2
+import datetime
 
 pswd = 'a8ee2d0d3e8741fa884c1c190aa2f384d53a96b5fe96443eac9863c261822cbc'
 host = 'ec2-54-167-152-185.compute-1.amazonaws.com'
@@ -22,9 +23,8 @@ port = 5432
 ########################################################################
 ######################## INCLUSAO PESSOA ###############################
 ########################################################################
-
 def salvarpessoa(nome, email, data, cod, labelResult):
-    
+    data = datetime.date(data)
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
     
     try:
@@ -40,9 +40,9 @@ def salvarpessoa(nome, email, data, cod, labelResult):
                         print("Cadastrando usuario")
                         cur.execute("""
                                     INSERT INTO PESSOA (nomeCompleto, dataNascimento, email, codSetor)
-                                    VALUES (%s, %d, %s, %d);
+                                    VALUES (%s, ", %s, %d);
                                     """,
-                                    (str(nome), int(data), str(email), int(cod)))
+                                    (str(nome), data.strftime, str(email), int(cod)))
                         conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
@@ -96,7 +96,6 @@ def ConsultaPessoa(nome, email, labelResult):
                                 AND LOWER(nomeCompleto) LIKE LOWER('%s%%')
                                 AND LOWER(email) LIKE LOWER('%s%%')
                                 """ % (nome, email))
-                        # conn.commit() # commit para atualizar o banco 
                 registros = cur.fetchall()
 
                 return registros
@@ -148,7 +147,6 @@ def salvarsetor(codigo, setor, codcoord, labelResult):
             with conn.cursor() as cur:
                 
                 if(checkSetor(setor)==1):
-                        print("Cadastrando Setor")
                         cur.execute("""
                                     INSERT INTO SETOR (codEmpresa, codCoordenador, nomeSetor)
                                     VALUES (%s, %s);
@@ -159,7 +157,6 @@ def salvarsetor(codigo, setor, codcoord, labelResult):
                 else:
                     print("Setor esta cadastrado no sistema") 
                     return 0
-
         else:
             print('Connection not established to PostgreSQL.')
             
@@ -437,7 +434,6 @@ def checkEmail(email):
         cur2.close()
         return -1 
 
-#Testar
 def checkSetor(setor):
 
     conn = psycopg2.connect(host=host,database=db, user=user, password=pswd)
@@ -459,8 +455,6 @@ def checkSetor(setor):
     #         WHERE 1=1 
     #         AND nomeSetor  
     #         """)
-    print(cur2.fetchall())
-
     if cur2.fetchall() == []:
         cur2.close()
         return 1

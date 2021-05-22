@@ -1,26 +1,12 @@
-from tkinter import *
-from pandastable import Table, TableModel
-
-class TestApp(Frame):
-    """Basic test frame for the table"""
-    def __init__(self, parent=None):
-        self.parent = parent
-        Frame.__init__(self)
-        self.main = self.master
-        self.main.geometry('600x400+200+100')
-        self.main.title('Table app')
-        f = Frame(self.main)
-        f.pack(fill=BOTH,expand=1)
-        
-        df = TableModel.getSampleData()
+nome = "matheus@ felipin yokoyama"
+teste = nome.split(' ')
+nome_completo = ''
 
 
-
-        self.table = pt = Table(f, dataframe=df,
-                                showtoolbar=True, showstatusbar=True)
-        pt.show()
-        return
-
-app = TestApp()
-#launch the app
-app.mainloop()
+for i in teste:
+    nome_completo = nome_completo + str.upper(list(i)[0]) 
+    nome_completo = nome_completo + str.lower(i[1:])
+if str.isalpha(nome_completo):
+    print("OK")
+else:
+    print("NOK")

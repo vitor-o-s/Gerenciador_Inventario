@@ -94,6 +94,7 @@ if __name__ == "__main__":
     itemConsulta = BotaoConsulta(menubar)
     itemConsulta.add_separator()
 
+
     # Adiciona 
     menubar.add_cascade(label='Cadastro', menu=itemCadastro)
     menubar.add_cascade(label='Consulta', menu=itemConsulta)
