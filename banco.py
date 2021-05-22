@@ -1,4 +1,5 @@
 import psycopg2
+import datetime
 
 pswd = 'a8ee2d0d3e8741fa884c1c190aa2f384d53a96b5fe96443eac9863c261822cbc'
 host = 'ec2-54-167-152-185.compute-1.amazonaws.com'
@@ -35,14 +36,20 @@ def salvarpessoa(nome, email, data, cod, labelResult):
                 ###################################################################################
                 ####### BUSCA NO BANCO INFORMAÇOES SE JÁ EXISTE USUARIO CADASTRADO ################
                 ###################################################################################
-                
+                date_string = data.replace('/','-')
+                date_format = '%d-%m-%Y'
+                date_obj = datetime.datetime.strptime(date_string, date_format)
+                print("Chegamos aqui")
+                year  = date_obj.year
+                month = date_obj.month
+                day   = date_obj.day 
                 if(checkEmail(email)==1):
                         print("Cadastrando usuario")
                         cur.execute("""
                                     INSERT INTO PESSOA (nomeCompleto, dataNascimento, email, codSetor)
-                                    VALUES (%s, %d, %s, %d);
+                                    VALUES (%s, %s, %s, %s);
                                     """,
-                                    (str(nome), int(data), str(email), int(cod)))
+                                    (str(nome), datetime.date(year,month,day), str(email), int(cod)))
                         conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
