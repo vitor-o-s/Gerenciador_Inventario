@@ -178,7 +178,7 @@ def checkdatanascimento(data):
     try:
         date_obj = datetime.datetime.strptime(date_string, date_format)
         date_obj.year
-        print(date_obj,'Deu certo')
+        # print(date_obj,'Deu certo')
     except ValueError:
          print("Incorrect data format, should be DD-MM-YYYY")
          return 0
