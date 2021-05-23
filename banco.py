@@ -35,14 +35,20 @@ def salvarpessoa(nome, email, data, cod, labelResult):
                 ###################################################################################
                 ####### BUSCA NO BANCO INFORMAÇOES SE JÁ EXISTE USUARIO CADASTRADO ################
                 ###################################################################################
-                
+                date_string = data.replace('/','-')
+                date_format = '%d-%m-%Y'
+                date_obj = datetime.datetime.strptime(date_string, date_format)
+                print("Chegamos aqui")
+                year  = date_obj.year
+                month = date_obj.month
+                day   = date_obj.day 
                 if(checkEmail(email)==1):
                         print("Cadastrando usuario")
                         cur.execute("""
                                     INSERT INTO PESSOA (nomeCompleto, dataNascimento, email, codSetor)
-                                    VALUES (%s, ", %s, %d);
+                                    VALUES (%s, %s, %s, %s);
                                     """,
-                                    (str(nome), data.strftime, str(email), int(cod)))
+                                    (str(nome), datetime.date(year,month,day), str(email), int(cod)))
                         conn.commit() # commit para atualizar o banco 
                         return 1        
                 else:
