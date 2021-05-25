@@ -1,37 +1,59 @@
-# Gerenciador_Inventario
+# Gerenciador Inventario
 
 ## Alunos:
-Carolina Rothe Mayer    
-Douglas Ramos De Sousa Felix     
-Gustavo Martins De Souza    
-Matheus Felipin Yokoyama    
-Vitor Oliveira Dos Santos   
+[Carolina Rothe Mayer](https://github.com/rothemayerc)
 
-## Descrição: Principal ideia do projeto é criar um sistema que possibilita realizar o gerenciamento de equipamentos da empresa.
+Douglas Ramos De Sousa Felix
 
+[Gustavo Martins De Souza](https://github.com/Gustavooguto)
 
+[Matheus Felipin Yokoyama](https://github.com/matheusfy) 
 
-### No projeto deve haver:
-- Sistema integrado com Banco.
-- Possibilidade de cadastrar equipamentos.
+[Vitor Oliveira Dos Santos](https://github.com/vitor-o-s)   
 
 
 
----
-# banco.py
-Possui a conexão com o banco e as validações para inserção e consulta.
-- salvarpessoa(nome, cargo, email): Função para fazer a inserção dos usuários
+## Descrição do Projeto: 
 
+Criar um sistema que possibilita a realização do gerenciamento de equipamentos de uma empresa.
 
+## Objetivo da disciplina: 
 
+Trabalhar Técnicas de Gerenciamento para Desenvolvimento de Software.
 
-# pessoa.py, setor.py, empresa.py, computador.py
-### Decrição: 
-No arquivo está incluído as funcionalidades dos botões, criação dos botões da barra de Menu e campos de texto que precisam ser preenchidas para cadastro ou consulta.
-
-
-# main.py
 ### Descrição:
 
+O desenvolvimento do projeto utilizou metodologia SCRUM, onde a cada SPRINT durava 2 semanas.
 
-> # PRECISA INSTALAR O pandastable
+
+## Requisitos técnicos
+
+* [Especificação de Requisitos](https://github.com/vitor-o-s/Gerenciador_Inventario/blob/main/Especifica%C3%A7%C3%A3odeRequisitos_Grupo1.pdf)
+* [Plano de Projeto](https://github.com/vitor-o-s/Gerenciador_Inventario/blob/main/PlanodeProjeto_Grupo1.pdf)
+
+### banco.py
+
+O arquivo [banco.py](https://github.com/vitor-o-s/Gerenciador_Inventario/blob/main/banco.py) é responsável por gerenciar a conexão entre o sistema e o servidor onde o banco está hospedado.
+
+### pessoa.py
+
+O arquivo [pessoa.py](https://github.com/vitor-o-s/Gerenciador_Inventario/blob/main/pessoa.py) é responsável por gerar as telas de cadastro e consulta, assim como a validação do preenchimento dos campos correspondentes.
+
+### setor.py
+
+O arquivo [setor.py](https://github.com/vitor-o-s/Gerenciador_Inventario/blob/main/setor.py) é responsável por gerar as telas de cadastro e consulta, assim como a validação do preenchimento dos campos correspondentes.
+
+### empresa.py
+
+O arquivo [empresa.py](https://github.com/vitor-o-s/Gerenciador_Inventario/blob/main/empresa.py) é responsável por gerar as telas de cadastro e consulta, assim como a validação do preenchimento dos campos correspondentes.
+
+### computador.py
+
+O arquivo [computador.py](https://github.com/vitor-o-s/Gerenciador_Inventario/blob/main/computador.py) é responsável por gerar as telas de cadastro e consulta, assim como a validação do preenchimento dos campos correspondentes.
+
+### main.py
+
+#### Descrição:
+
+
+> #### Bibliotecas principais: pandastable, tkinter, psycopg2
